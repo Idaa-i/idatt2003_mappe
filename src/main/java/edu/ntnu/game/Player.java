@@ -1,8 +1,10 @@
-package edu.ntnu;
+package edu.ntnu.game;
+
+import edu.ntnu.board.Tile;
 
 public class Player {
-    private String name:
-    private Tile currentTile:
+    private String name;
+    private Tile currentTile;
 
     public Player(String name, Tile, startTile){
         this.name = name;
