@@ -12,7 +12,7 @@ public class Tile {
         return position;
     }
 
-    public void setAction(TileAction) {
+    public void setAction(TileAction action) {
         this.action = action;
     }
 
