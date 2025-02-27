@@ -3,6 +3,7 @@ package edu.ntnu;
 import static org.junit.jupiter.api.Assertions.*;
 
 import edu.ntnu.board.Board;
+import edu.ntnu.board.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -13,9 +14,9 @@ class BoardTest {
 
   @BeforeEach
   void setUp() {
-    board = new Board();
-    tile1 = new Tile(1, "Start");
-    tile2 = new Tile(2, "Finish");
+    board = new Board(90); //Updated for correct boardsize
+    tile1 = new Tile(1);
+    tile2 = new Tile(2);
   }
 
   @Test
@@ -34,6 +35,11 @@ class BoardTest {
 
   @Test
   void testGetTileInvalid() {
-    assertNull(board.getTile(3));
+    assertNull(board.getTile(91));
+  }
+  @Test
+  void testGetStartTile() {
+    assertEquals(1, board.getStartTile().getPosition()); // Test that start tile is correct
   }
 }
+

@@ -1,5 +1,6 @@
 package edu.ntnu.game;
 import java.util.*;
+import edu.ntnu.board.Board;
 
 class BoardGame {
     private Board board;

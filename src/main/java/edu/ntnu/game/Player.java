@@ -1,6 +1,7 @@
 package edu.ntnu.game;
 
 import edu.ntnu.board.Tile;
+import edu.ntnu.board.Board;
 
 public class Player {
     private String name;
