@@ -1,5 +1,4 @@
 package edu.ntnu.board;
-//Test
 
 class LadderAction implements TileAction {
     private int destination;
@@ -7,7 +6,7 @@ class LadderAction implements TileAction {
         this.destination = destination;
     }
     public int execute(int position){
-        System.out.println("Ladder! Moving to" + destination);
+        System.out.println("Ladder! Moving to " + destination);
         return destination;
     }
 }
