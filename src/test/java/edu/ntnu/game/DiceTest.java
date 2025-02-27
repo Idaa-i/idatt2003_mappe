@@ -1,8 +1,7 @@
-package edu.ntnu;
+package edu.ntnu.game;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import edu.ntnu.game.Dice;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
