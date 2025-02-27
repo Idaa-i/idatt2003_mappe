@@ -23,7 +23,7 @@ public class Board {
    * @param tile feltet som skal legges til
    */
   public void addTile(Tile tile) {
-    tiles.put(tile.getTileId(), tile);
+    tiles.put(tile.getPosition(), tile);
   }
 
   /**
