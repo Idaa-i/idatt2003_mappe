@@ -1,4 +1,4 @@
-package edu.ntnu;
+package edu.ntnu.game;
 
 import java.util.Random;
 
