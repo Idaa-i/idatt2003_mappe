@@ -1,4 +1,5 @@
 package edu.ntnu.board;
+//Test
 
 class LadderAction implements TileAction {
     private int destination;

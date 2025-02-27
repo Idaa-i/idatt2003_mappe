@@ -13,9 +13,22 @@ public class Board {
    * Konstruktor for Board-klassen.
    * Brettet starter tomt
    */
-  public Board() {
+  public Board(int size) {
     this.tiles = new HashMap<>();
+    for (int i = 1; i <= size; i++) {
+      tiles.put(i, new Tile(i));
+    }
+
   }
+
+  /**
+   * Metode for å hente startfeltet på brettet.
+   * @return første felt på brettet
+   */
+  public Tile getStartTile() {
+    return tiles.get(1);
+  }
+
 
   /**
    * Metode for å legge til felt på brettet.
