@@ -34,5 +34,9 @@ class BoardGame {
             }
         }
     }
+
+    public boolean isGameOver() {
+        return gameOver;
+    }
 }
 

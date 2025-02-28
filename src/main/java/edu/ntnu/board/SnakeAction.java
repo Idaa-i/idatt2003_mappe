@@ -6,7 +6,7 @@ class SnakeAction implements TileAction {
         this.destination = destination;
     }
     public int execute(int position){
-        System.out.println("Snake! Moving to" + destination);
+        System.out.println("Snake! Moving to " + destination);
         return destination;
     }
 }
