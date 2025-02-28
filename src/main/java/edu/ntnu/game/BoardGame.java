@@ -2,7 +2,7 @@ package edu.ntnu.game;
 import java.util.*;
 import edu.ntnu.board.Board;
 
-class BoardGame {
+public class BoardGame {
     private Board board;
     private List<Player> players;
     private Dice dice;
