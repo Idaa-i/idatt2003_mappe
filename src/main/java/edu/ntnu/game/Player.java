@@ -23,10 +23,10 @@ public class Player {
         }
         int newPosition = currentTile.getPosition() + roll;
 
-        // Stops you from going past 90
+        // If player lands over 90, go the difference backwards
         if (newPosition > 90) {
-            System.out.println(name + " rolled too high and has to stay on tile " + currentTile.getPosition());
-            return;
+            int excess = newPosition - 90;
+            newPosition = 90 - excess; // Go backwards
         }
 
         Tile newTile = board.getTile(currentTile.executeAction(newPosition));
