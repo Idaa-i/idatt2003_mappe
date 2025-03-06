@@ -1,19 +1,27 @@
 package edu.ntnu.game;
 
+import edu.ntnu.CSVExample;
 import edu.ntnu.board.Tile;
 import edu.ntnu.board.Board;
 
 public class Player {
     private String name;
+    private String color;
     private Tile currentTile;
 
     public Player(String name, Tile startTile){
         this.name = name;
+        this.color = color;
+        CSVExample.addPlayer(this);
         this.currentTile = startTile;
     }
 
     public String getName() {
         return name;
+    }
+
+    public String getColor() {
+        return color;
     }
 
     public void move(int roll, Board board){
