@@ -13,7 +13,7 @@ public class BoardGame {
     private Dice dice;
     private boolean gameOver;
 
-    public BoardGame(int numPlayers) {
+    public BoardGame(Board board, int numPlayers) {
         board = new Board(90);
         players = new ArrayList<>();
         dice = new Dice(2);
