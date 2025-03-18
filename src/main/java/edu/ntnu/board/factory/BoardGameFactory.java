@@ -2,12 +2,24 @@ package edu.ntnu.board.factory;
 
 import edu.ntnu.board.*;
 import edu.ntnu.game.BoardGame;
+import com.google.gson.*;
+import edu.ntnu.board.*;
+
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.Reader;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.Objects;
+
 
 /**
  * BoardGameFactory for creating different board game variants.
  */
 public class BoardGameFactory {
-
+    private static final String SAVE_DIRECTORY = "saved_games";
     /**
      * Creates a predefined board game.
      * @param type The type of board game to create.
@@ -52,4 +64,22 @@ public class BoardGameFactory {
         return new BoardGame(board, numPlayers);
     }
 
+    /**
+     * Creates a custom board game based on user-defined parameters.
+     * @param numTiles Number of tiles in the board.
+     * @param tileActions Map of tile positions to their actions.
+     * @param numPlayers Number of players in the game.
+     * @return A new BoardGame instance.
+     */
+    public static BoardGame createCustomBoardGame(int numTiles, Map<Integer, TileAction> tileActions, int numPlayers) {
+        Board board = new Board(numTiles);
+
+        for (Map.Entry<Integer, TileAction> entry : tileActions.entrySet()) {
+            int position = entry.getKey();
+            TileAction action = entry.getValue();
+            board.getTile(position).setAction(action);
+        }
+
+        return new BoardGame(board, numPlayers);
     }
+}
