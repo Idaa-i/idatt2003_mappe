@@ -1,5 +1,5 @@
 package edu.ntnu.board;
 
-interface TileAction {
+public interface TileAction {
     int execute(int position);
 }

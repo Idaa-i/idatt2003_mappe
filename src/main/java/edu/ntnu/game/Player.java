@@ -1,19 +1,23 @@
 package edu.ntnu.game;
 
 import edu.ntnu.CSVExample;
+import edu.ntnu.board.SkipOneRoundAction;
 import edu.ntnu.board.Tile;
 import edu.ntnu.board.Board;
+import edu.ntnu.board.TileAction;
 
 public class Player {
     private String name;
     private String color;
     private Tile currentTile;
+    private boolean skipOneRound;
 
     public Player(String name, Tile startTile){
         this.name = name;
         this.color = color;
         CSVExample.addPlayer(this);
         this.currentTile = startTile;
+        this.skipOneRound = false;
     }
 
     public String getName() {
@@ -24,7 +28,20 @@ public class Player {
         return color;
     }
 
+    public boolean isSkipOneRound() {
+        return skipOneRound;
+    }
+
+    public void setSkipOneRound(boolean skipOneRound) {
+        this.skipOneRound = skipOneRound;
+    }
+
     public void move(int roll, Board board){
+        if (skipOneRound){
+            System.out.println(name + " skips one round!");
+            skipOneRound = false;
+            return;
+        }
         if(currentTile == null){
             System.err.println(name + "has an invalid tile");
             return;
@@ -37,11 +54,20 @@ public class Player {
             newPosition = 90 - excess; // Go backwards
         }
 
-        Tile newTile = board.getTile(currentTile.executeAction(newPosition));
+        Tile newTile = board.getTile(newPosition);
 
         if (newTile == null) {
             System.err.println(name + "landed on an invalid tile: " + newPosition);
             return;
+        }
+
+        TileAction action = board.getAction(newPosition);
+        if (action != null) {
+            newPosition = action.execute(newPosition);
+            newTile = board.getTile(newPosition);
+            if (action instanceof SkipOneRoundAction) {
+                skipOneRound = true;
+            }
         }
 
         currentTile = newTile;

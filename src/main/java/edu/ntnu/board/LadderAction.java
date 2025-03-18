@@ -1,6 +1,6 @@
 package edu.ntnu.board;
 
-class LadderAction implements TileAction {
+public class LadderAction implements TileAction {
     private int destination;
     public LadderAction(int destination) {
         this.destination = destination;

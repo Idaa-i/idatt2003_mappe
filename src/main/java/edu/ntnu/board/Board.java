@@ -8,6 +8,7 @@ import java.util.Map;
  */
 public class Board {
   private Map<Integer, Tile> tiles;
+  private Map<Integer, TileAction> actions;
 
   /**
    * Konstruktor for Board-klassen.
@@ -15,6 +16,7 @@ public class Board {
    */
   public Board(int size) {
     this.tiles = new HashMap<>();
+    this.actions = new HashMap<>();
     for (int i = 1; i <= size; i++) {
       tiles.put(i, new Tile(i));
     }
@@ -23,6 +25,7 @@ public class Board {
 
   /**
    * Metode for å hente startfeltet på brettet.
+   *
    * @return første felt på brettet
    */
   public Tile getStartTile() {
@@ -47,5 +50,25 @@ public class Board {
    */
   public Tile getTile(int tileId) {
     return tiles.get(tileId);
+  }
+
+  /**
+   * Metode for å legge til en handling på et spesifikt felt.
+   *
+   * @param action   handlingen som skal legges til
+   * @param position posisjonen til feltet
+   */
+  public void addAction(TileAction action, int position) {
+    actions.put(position, action);
+  }
+
+  /**
+   * Metode for å hente handlingen på et spesifikt felt.
+   *
+   * @param position posisjonen til feltet
+   * @return handlingen på flisen
+   */
+  public TileAction getAction(int position) {
+    return actions.get(position);
   }
 }
