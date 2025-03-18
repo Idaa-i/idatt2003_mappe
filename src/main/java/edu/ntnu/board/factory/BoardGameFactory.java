@@ -5,10 +5,7 @@ import edu.ntnu.game.BoardGame;
 import com.google.gson.*;
 import edu.ntnu.board.*;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
-import java.io.Reader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -81,5 +78,52 @@ public class BoardGameFactory {
         }
 
         return new BoardGame(board, numPlayers);
+    }
+
+    /**
+     * Saves a board game to a JSON file.
+     * @param game The board game to save.
+     * @param fileName The name of the file (without extension).
+     */
+    public static void saveBoardGame(BoardGame game, String fileName) {
+        File saveDir = new File(SAVE_DIRECTORY);
+        if (!saveDir.exists()) {
+            saveDir.mkdirs();  // Oppretter mappen hvis den ikke finnes
+        }
+
+        File saveFile = new File(saveDir, fileName + ".json");
+
+        try (Writer writer = new FileWriter(saveFile)) {
+            Gson gson = new GsonBuilder().setPrettyPrinting().create();
+            gson.toJson(game, writer);
+            System.out.println("Game saved to " + saveFile.getAbsolutePath());
+        } catch (IOException e) {
+            System.err.println("Error saving game: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Loads all saved board games from the save directory.
+     * @return List of BoardGame instances.
+     */
+    public static List<BoardGame> loadAllSavedBoardGames() {
+        List<BoardGame> boardGames = new ArrayList<>();
+        File saveDir = new File(SAVE_DIRECTORY);
+
+        if (!saveDir.exists() || !saveDir.isDirectory()) {
+            return boardGames;
+        }
+
+        Gson gson = new Gson();
+        for (File file : Objects.requireNonNull(saveDir.listFiles((dir, name) -> name.endsWith(".json")))) {
+            try (Reader reader = new FileReader(file)) {
+                BoardGame game = gson.fromJson(reader, BoardGame.class);
+                boardGames.add(game);
+            } catch (IOException e) {
+                System.err.println("Error loading game from file: " + file.getName());
+            }
+        }
+
+        return boardGames;
     }
 }
