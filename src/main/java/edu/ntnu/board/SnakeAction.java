@@ -1,6 +1,6 @@
 package edu.ntnu.board;
 
-class SnakeAction implements TileAction {
+public class SnakeAction implements TileAction {
     private int destination;
     public SnakeAction(int destination) {
         this.destination = destination;
