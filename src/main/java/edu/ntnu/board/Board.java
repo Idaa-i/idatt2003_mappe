@@ -25,6 +25,7 @@ public class Board {
 
   /**
    * Metode for å hente startfeltet på brettet.
+   *
    * @return første felt på brettet
    */
   public Tile getStartTile() {
@@ -54,7 +55,7 @@ public class Board {
   /**
    * Metode for å legge til en handling på et spesifikt felt.
    *
-   * @param action handlingen som skal legges til
+   * @param action   handlingen som skal legges til
    * @param position posisjonen til feltet
    */
   public void addAction(TileAction action, int position) {
