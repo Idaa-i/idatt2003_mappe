@@ -5,9 +5,12 @@ import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
 import javafx.stage.Stage;
+import java.io.*;
+import java.util.ArrayList;
 
 public class EditPlayersView extends Application {
     private VBox playersBox;
+    private final int MAX_PLAYERS = 4;
     private Label errorLabel;
 
     public static void main(String[] args) {
@@ -21,6 +24,7 @@ public class EditPlayersView extends Application {
         errorLabel = new Label();
 
         Button addButton = new Button("Add +");
+        addButton.setOnAction(e -> addPlayer());
 
         Button saveButton = new Button("Save players?");
 
@@ -35,4 +39,15 @@ public class EditPlayersView extends Application {
         primaryStage.setScene(scene);
         primaryStage.show();
     }
+
+    private void addPlayer() {
+        if (players.size() >= MAX_PLAYERS) {
+            errorLabel.setText("Max 4 players allowed!");
+            return;
+        }
+        Player newPlayer = new Player("Player" + (players.size() + 1));
+        players.add(newPlayer);
+        playersBox.getChildren().add(createPlayerRow(newPlayer));
+    }
+
 }
