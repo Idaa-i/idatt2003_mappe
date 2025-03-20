@@ -19,13 +19,19 @@ public class WelcomePageView extends Application {
         Label chooseLabel = new Label("Choose a game");
         chooseLabel.setStyle("-fx-font-size: 18px;");
 
+        ImageView ludoImage = new ImageView(new Image(getClass().getResource("/images/ludo.png").toExternalForm()));
+        ludoImage.setFitWidth(150);
+        ludoImage.setFitHeight(150);
 
+        ImageView snakesImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders.png").toExternalForm()));
+        snakesImage.setFitWidth(150);
+        snakesImage.setFitHeight(150);
 
         Label ludoLabel = new Label("Ludo");
         Label snakesLabel = new Label("Snakes & Ladders");
 
-        VBox ludoBox = new VBox(ludoLabel);
-        VBox snakesBox = new VBox(snakesLabel);
+        VBox ludoBox = new VBox(ludoLabel, ludoImage);
+        VBox snakesBox = new VBox(snakesLabel, snakesImage);
 
         HBox gameSelection = new HBox(20, ludoBox, snakesBox);
         gameSelection.setStyle("-fx-alignment: center;");
