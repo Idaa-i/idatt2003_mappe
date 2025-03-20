@@ -14,7 +14,7 @@ public class BoardGame {
     private boolean gameOver;
 
     public BoardGame(Board board, int numPlayers) {
-        board = new Board(90);
+        this.board = new Board(90);
         players = new ArrayList<>();
         dice = new Dice(2);
         gameOver = false;
