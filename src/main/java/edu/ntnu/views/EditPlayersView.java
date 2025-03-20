@@ -7,6 +7,8 @@ import javafx.scene.layout.*;
 import javafx.stage.Stage;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.HashSet;
+
 
 public class EditPlayersView extends Application {
     private VBox playersBox;
@@ -28,9 +30,18 @@ public class EditPlayersView extends Application {
         addButton.setOnAction(e -> addPlayer());
 
         Button saveButton = new Button("Save players?");
-        saveButton.setOnAction(e -> savePlayersToFile());
+        saveButton.setOnAction(e -> {
+            if (validatePlayers()) {
+                savePlayersToFile();
+            }
+        });
 
         Button playButton = new Button("Play!");
+        playButton.setOnAction(e -> {
+            if (validatePlayers()) {
+                goToLevelView(primaryStage);
+            }
+        });
 
         HBox buttonBox = new HBox(10, addButton, saveButton, playButton);
         VBox layout = new VBox(10, new Label("Edit Players:"), playersBox, errorLabel, buttonBox);
@@ -58,8 +69,9 @@ public class EditPlayersView extends Application {
 
         ComboBox<String> colorPicker = new ComboBox<>();
         colorPicker.getItems().addAll("Red", "Orange", "Yellow", "Green", "Cyan", "Magenta");
-        colorPicker.setValue("Red");
+        colorPicker.setValue(player.getColor());
         colorPicker.setOnAction(e -> player.setColor(colorPicker.getValue()));
+
 
         Button removeButton = new Button("-");
         removeButton.setOnAction(e -> removePlayer(player, nameField));
@@ -72,6 +84,24 @@ public class EditPlayersView extends Application {
         playersBox.getChildren().removeIf(node -> ((HBox) node).getChildren().contains(nameField));
     }
 
+    private boolean validatePlayers() {
+        HashSet<String> names = new HashSet<>();
+        HashSet<String> colors = new HashSet<>();
+
+        for (Player player : players) {
+            if (!names.add(player.getName())) {
+                errorLabel.setText("Duplicate names are not allowed!");
+                return false;
+            }
+            if (!colors.add(player.getColor())) {
+                errorLabel.setText("Duplicate colors are not allowed!");
+                return false;
+            }
+        }
+        errorLabel.setText(""); // Clear error message if validation passes
+        return true;
+    }
+
     private void savePlayersToFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("players.txt"))) {
             for (Player player : players) {
@@ -81,6 +111,16 @@ public class EditPlayersView extends Application {
         } catch (IOException e) {
             errorLabel.setText("Error saving players!");
         }
+    }
+
+    private void goToLevelView(Stage stage) {
+        if (players.isEmpty()) {
+            errorLabel.setText("No players added! Please add at least one player.");
+            return;
+        }
+        Label levelLabel = new Label("Welcome to LevelView!");
+        Scene levelScene = new Scene(new VBox(levelLabel), 300, 200);
+        stage.setScene(levelScene);
     }
 
     static class Player {
