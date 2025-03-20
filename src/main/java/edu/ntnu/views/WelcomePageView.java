@@ -22,10 +22,12 @@ public class WelcomePageView extends Application {
         ImageView ludoImage = new ImageView(new Image(getClass().getResource("/images/ludo.png").toExternalForm()));
         ludoImage.setFitWidth(150);
         ludoImage.setFitHeight(150);
+        ludoImage.setOnMouseClicked(event -> openEditPlayers("Ludo"));
 
         ImageView snakesImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders.png").toExternalForm()));
         snakesImage.setFitWidth(150);
         snakesImage.setFitHeight(150);
+        snakesImage.setOnMouseClicked(event -> openEditPlayers("Snakes & Ladders"));
 
         Label ludoLabel = new Label("Ludo");
         Label snakesLabel = new Label("Snakes & Ladders");
@@ -41,8 +43,20 @@ public class WelcomePageView extends Application {
 
         Scene scene = new Scene(root, 600, 400);
 
+        String fontUrl = getClass().getResource("/fonts/AsapCondensed-Black.ttf").toExternalForm();
+        scene.getStylesheets().add(fontUrl);
+
         primaryStage.setTitle("Boardgame Selection");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+
+    private void openEditPlayers(String game) {
+        System.out.println("Navigating to Edit Players for: " + game);
+        // Implement navigation to EditPlayersView here
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }
