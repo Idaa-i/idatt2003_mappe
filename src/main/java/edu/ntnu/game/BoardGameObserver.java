@@ -1,5 +1,7 @@
 package edu.ntnu.game;
 
+import edu.ntnu.board.Tile;
+
 /**
  * This class represents a boardgame observer which handles notifications about state changes in
  * the BoardGame class.
@@ -11,7 +13,7 @@ public interface BoardGameObserver {
    * @param player      the player who moved
    * @param newPosition the new position of the player
    */
-  void onPlayerMove(Player player, int newPosition);
+  void onPlayerMove(Player player, Tile newPosition);
 
   /**
    * This method will be called whenever a player wins the game.

@@ -12,12 +12,14 @@ public class BoardGame {
     private List<Player> players;
     private Dice dice;
     private boolean gameOver;
+    private List<BoardGameObserver> observers;
 
     public BoardGame(Board board, int numPlayers) {
         this.board = new Board(90);
         players = new ArrayList<>();
         dice = new Dice(2);
         gameOver = false;
+        observers = new ArrayList<>();
 
         board.addAction(new LadderAction(16), 6);
         board.addAction(new LadderAction(46), 34);
@@ -37,6 +39,22 @@ public class BoardGame {
 
         for (int i = 1; i <= numPlayers; i++) {
             players.add(new Player("Player " + i, board.getStartTile()));
+        }
+    }
+
+    public void addObserver(BoardGameObserver observer) {
+        observers.add(observer);
+    }
+
+    private void notifyPlayerMove(Player player) {
+        for (BoardGameObserver observer : observers) {
+            observer.onPlayerMove(player, player.getCurrentTile());
+        }
+    }
+
+    private void notifyPlayerWon(Player winner) {
+        for (BoardGameObserver observer : observers) {
+            observer.onPlayerWin(winner);
         }
     }
 
