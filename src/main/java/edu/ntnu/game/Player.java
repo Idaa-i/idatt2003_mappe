@@ -28,6 +28,10 @@ public class Player {
         return color;
     }
 
+    public Tile getCurrentTile() {
+        return currentTile;
+    }
+
     public boolean isSkipOneRound() {
         return skipOneRound;
     }
