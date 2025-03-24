@@ -1,8 +1,6 @@
 package edu.ntnu.views;
 
 import javafx.application.Application;
-import javafx.beans.binding.Bindings;
-import javafx.beans.value.ObservableValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -39,15 +37,15 @@ public class EditPlayersView extends Application {
         titleBox.setAlignment(Pos.CENTER_LEFT);
 
         Label titleLabel = new Label("Edit players:");
-        titleLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold; -fx-border-width: 20px; -fx-border-color: #ffffe0;");
+        titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-border-width: 20px; -fx-border-color: #ffffe0;");
         titleBox.getChildren().add(titleLabel);
 
         VBox contentBox = new VBox(10);
-        contentBox.setPadding(new Insets(20)); // Existing padding
-        contentBox.setStyle("-fx-background-color: #ffffe0; -fx-border-color: #dbe8fd; -fx-border-width: 20px;"); // Yellow with black border
+        contentBox.setPadding(new Insets(20));
+        contentBox.setStyle("-fx-background-color: #ffffe0; -fx-border-color: #dbe8fd; -fx-border-width: 40px;");
 
         playersBox = new VBox(10);
-        playersBox.setStyle("-fx-background-color: #ffffe0;"); // White background to create visual separation
+        playersBox.setStyle("-fx-background-color: #ffffe0;");
         playersBox.setPrefHeight(450); // Fixed height to create more space
         playersBox.setAlignment(Pos.TOP_LEFT);
         VBox.setVgrow(playersBox, Priority.ALWAYS);
@@ -57,12 +55,12 @@ public class EditPlayersView extends Application {
 
         Button addButton = new Button("Add +");
         addButton.setStyle(
-                "-fx-background-color: #dbe8fd; " + // Gjør bakgrunnen gjennomsiktig
-                        "-fx-text-fill: BLACK; " + // Grønn tekstfarge for Add +
-                        "-fx-border-width: 2px; " + // Tynn ramme rundt knappen
+                "-fx-background-color: #dbe8fd; " + // Blue background
+                        "-fx-text-fill: BLACK; " + // Black text
+                        "-fx-border-width: 2px; " + // Border
                         "-fx-padding: 5px 10px; " + // Minimal padding
-                        "-fx-font-weight: bold; " + // Fet tekst
-                        "-fx-border-radius: 5px;"); // Rette kanter for knappen
+                        "-fx-font-weight: bold; " + // Bold text
+                        "-fx-border-radius: 5px;"); // Rounded border
 
         // Bind button width and height to scene size
         addButton.minWidthProperty().bind(primaryStage.widthProperty().multiply(0.15));  // 15% of window width
@@ -72,12 +70,12 @@ public class EditPlayersView extends Application {
 
         Button saveButton = new Button("Save players?");
         saveButton.setStyle(
-                "-fx-background-color: #dbe8fd; " + // Grønn bakgrunn
-                        "-fx-text-fill: BLACK; " + // Hvit tekst
-                        "-fx-border-color: transparent; " + // Ingen ramme
+                "-fx-background-color: #dbe8fd; " + // Blue background
+                        "-fx-text-fill: BLACK; " + // Black text
+                        "-fx-border-color: transparent; " + // No border
                         "-fx-padding: 5px 10px; " + // Minimal padding
-                        "-fx-font-weight: bold; " + // Fet tekst
-                        "-fx-border-radius: 5px;"); // Rette kanter
+                        "-fx-font-weight: bold; " + // Bold text
+                        "-fx-border-radius: 5px;"); // Rounded border
 
         // Bind button width and height to scene size
         saveButton.minWidthProperty().bind(primaryStage.widthProperty().multiply(0.15));  // 15% of window width
@@ -91,12 +89,12 @@ public class EditPlayersView extends Application {
 
         Button playButton = new Button("Play!");
         playButton.setStyle(
-                "-fx-background-color: #dbe8fd; " + // Grønn bakgrunn
-                        "-fx-text-fill: BLACK; " + // Hvit tekst
-                        "-fx-border-color: transparent; " + // Ingen ramme
+                "-fx-background-color: #dbe8fd; " + // Blue background
+                        "-fx-text-fill: BLACK; " + // Black text
+                        "-fx-border-color: transparent; " + // No border
                         "-fx-padding: 5px 10px; " + // Minimal padding
-                        "-fx-font-weight: bold; " + // Fet tekst
-                        "-fx-border-radius: 5px;"); // Rette kanter
+                        "-fx-font-weight: bold; " + // Bold text
+                        "-fx-border-radius: 5px;"); // Rounded border
 
         // Bind button width and height to scene size
         playButton.minWidthProperty().bind(primaryStage.widthProperty().multiply(0.15));  // 15% of window width
@@ -118,7 +116,7 @@ public class EditPlayersView extends Application {
 
         root.setCenter(mainContent);
 
-        Scene scene = new Scene(root, 600, 650);
+        Scene scene = new Scene(root, 600, 550);
         primaryStage.setTitle("Edit Players");
         primaryStage.setScene(scene);
         primaryStage.show();
@@ -142,19 +140,19 @@ public class EditPlayersView extends Application {
     private HBox createPlayerRow(Player player) {
         TextField nameField = new TextField(player.getName());
         nameField.textProperty().addListener((obs, oldVal, newVal) -> player.setName(newVal));
-        nameField.setPrefWidth(120); // Litt bredere for plass
+        nameField.setPrefWidth(120);
         nameField.setStyle(
-                "-fx-background-color: transparent; " + // Gjør bakgrunnen gjennomsiktig
-                        "-fx-border-width: 0 0 2px 0; " + // Tynn linje kun nederst
-                        "-fx-border-color: BLACK; " + // Lys grå for linjen
-                        "-fx-font-size: 14px; " + // Mindre fontstørrelse for en mer elegant følelse
-                        "-fx-font-family: 'Arial'; " + // Enkel og moderne font
-                        "-fx-padding: 5px 0 0 0;"); // Lite mellomrom på toppen
+                "-fx-background-color: transparent; " + // Transparent background
+                        "-fx-border-width: 0 0 2px 0; " + // Thin line under text
+                        "-fx-border-color: BLACK; " + // Black line
+                        "-fx-font-size: 14px; " + // Smaller font to match wireframe
+                        "-fx-font-family: 'Arial'; " + // Temporary font since AsapCondensed doesn't work yet
+                        "-fx-padding: 5px 0 0 0;"); // A little space up top
 
         HBox colorBox = new HBox(5);
         colorBox.setPadding(new Insets(5));
         colorBox.setAlignment(Pos.CENTER_LEFT);
-        colorBox.setStyle("-fx-background-color: #c6e2ff;"); // Litt blå bakgrunn for fargevalgene
+        colorBox.setStyle("-fx-background-color: #c6e2ff;");
 
         // Create a list to hold the color rectangles
         ArrayList<Rectangle> colorRects = new ArrayList<>();
@@ -179,23 +177,23 @@ public class EditPlayersView extends Application {
 
         Button removeButton = new Button("-");
         removeButton.setStyle(
-                "-fx-background-color: transparent; " + // Gjør bakgrunnen gjennomsiktig
-                        "-fx-text-fill: black; " + // Svart tekst
-                        "-fx-border-color: black; " + // Svart ramme
-                        "-fx-border-width: 1px; " + // Tynn ramme
+                "-fx-background-color: transparent; " + // Transparent background
+                        "-fx-text-fill: black; " + // Black text
+                        "-fx-border-color: black; " + // Black border
+                        "-fx-border-width: 1px; " + // Thin border
                         "-fx-padding: 0px 6px; " +
-                        "-fx-border-radius: 3px; " + // Rundede hjørner på rammen
+                        "-fx-border-radius: 3px; " + // Rounded border
                         "-fx-font-weight: bold;" +
-                        "-fx-font-size: 15px; "); // Fet tekst for knappen
+                        "-fx-font-size: 15px; "); // Bold text
 
-        removeButton.setMaxHeight(20); // Sett ønsket høyde
-        removeButton.setMaxWidth(20);  // Sett ønsket bredde
+        removeButton.setMaxHeight(20); // Set max height
+        removeButton.setMaxWidth(20);  // Set max width
         removeButton.setOnAction(e -> removePlayer(player));
 
         HBox row = new HBox(10, nameField, colorBox, removeButton);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setPadding(new Insets(5));
-        row.setStyle("-fx-background-color: #e6f2ff;"); // Lys blå bakgrunn for hele raden
+        row.setStyle("-fx-background-color: #e6f2ff;");
 
         return row;
     }
