@@ -133,13 +133,19 @@ public class EditPlayersView extends Application {
     }
 
     private void addPlayer() {
-        if (players.size() >= MAX_PLAYERS) return;
+        if (players.size() >= MAX_PLAYERS) {
+            errorLabel.setText("Maximum of " + MAX_PLAYERS + " players allowed!");
+            return;
+        }
 
         Player newPlayer = new Player("Player" + (players.size() + 1));
         players.add(newPlayer);
         HBox playerRow = createPlayerRow(newPlayer);
         playersBox.getChildren().add(playerRow);
         playerRows.put(newPlayer, playerRow);
+
+        // Clear any previous error message if successful
+        errorLabel.setText("");
     }
 
     private HBox createPlayerRow(Player player) {
@@ -251,10 +257,15 @@ public class EditPlayersView extends Application {
     }
 
     private void savePlayersToFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("players.txt"))) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter("players.csv"))) {
+            // Write CSV header
+            writer.println("Name,Color");
+
+            // Write player data
             for (Player player : players) {
-                writer.println(player.getName() + ":" + player.getColor());
+                writer.println(player.getName() + "," + player.getColor());
             }
+            errorLabel.setText("Players saved successfully!");
         } catch (IOException e) {
             errorLabel.setText("Failed to save players!");
         }
