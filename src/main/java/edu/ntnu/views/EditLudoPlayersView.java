@@ -14,11 +14,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
-public class EditPlayersView extends Application {
+public class EditLudoPlayersView extends Application {
     private VBox playersBox;
     private ArrayList<Player> players = new ArrayList<>();
     private final int MAX_PLAYERS = 4;
-    private final String[] colors = {"Red", "Orange", "Yellow", "Green", "Cyan", "Magenta"};
+    private final String[] colors = {"#719063", "#9D61E6", "#E79A61", "#E76264"};
     private Label errorLabel;
     private HashMap<Player, HBox> playerRows = new HashMap<>();
 
@@ -31,22 +31,22 @@ public class EditPlayersView extends Application {
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #dbe8fd;"); // Pale blue background
 
-        // Title with yellow background, no padding
+        // Title
         HBox titleBox = new HBox();
         titleBox.setStyle("-fx-background-color: #ffffe0;"); // Yellow background for header
         titleBox.setAlignment(Pos.CENTER_LEFT);
 
         Label titleLabel = new Label("Edit players:");
-        titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-border-width: 20px; -fx-border-color: #ffffe0;");
+        titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-padding: 20px;");
         titleBox.getChildren().add(titleLabel);
 
-        VBox contentBox = new VBox(20); // Increased spacing between content elements
+        VBox contentBox = new VBox(20);
         contentBox.setPadding(new Insets(20));
         contentBox.setStyle("-fx-background-color: #ffffe0; -fx-border-color: #dbe8fd; -fx-border-width: 40px;");
 
-        playersBox = new VBox(40); // Increased spacing between player rows
+        playersBox = new VBox(40);
         playersBox.setStyle("-fx-background-color: #ffffe0;");
-        playersBox.setPrefHeight(450); // Fixed height to create more space
+        playersBox.setPrefHeight(450);
         playersBox.setAlignment(Pos.TOP_LEFT);
         VBox.setVgrow(playersBox, Priority.ALWAYS);
 
@@ -120,13 +120,13 @@ public class EditPlayersView extends Application {
         root.setCenter(mainContent);
 
         Scene scene = new Scene(root, 600, 550);
-        primaryStage.setTitle("Edit Players");
+        primaryStage.setTitle("Ludo - Edit Players");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
 
         primaryStage.show();
 
-        // Add initial players to match the wireframe
+        // Add initial players
         addPlayer();
         addPlayer();
         addPlayer();
@@ -144,7 +144,6 @@ public class EditPlayersView extends Application {
         playersBox.getChildren().add(playerRow);
         playerRows.put(newPlayer, playerRow);
 
-        // Clear any previous error message if successful
         errorLabel.setText("");
     }
 
@@ -160,27 +159,24 @@ public class EditPlayersView extends Application {
                         "-fx-font-weight: bold; " +
                         "-fx-padding: 5px;");
 
-        HBox colorBox = new HBox(15); // Increased spacing between color rectangles
+        HBox colorBox = new HBox(15);
         colorBox.setPadding(new Insets(7));
         colorBox.setAlignment(Pos.CENTER_LEFT);
         colorBox.setStyle("-fx-background-color: #c6e2ff;");
 
-        // Create a list to hold the color rectangles
         ArrayList<Rectangle> colorRects = new ArrayList<>();
 
         for (String color : colors) {
             Rectangle colorRect = new Rectangle(30, 30, Color.web(color.toLowerCase()));
             colorRect.setFill(Color.web(color.toLowerCase()));
 
-            // Add the color rectangle to the list
             colorRects.add(colorRect);
 
-            colorRect.setOpacity(player.getColor().equals(color) ? 0.5 : 1.0);  // Default opacity
+            colorRect.setOpacity(player.getColor().equals(color) ? 0.5 : 1.0);
 
-            // Set the event to update color and appearance when selected
             colorRect.setOnMouseClicked(e -> {
-                player.setColor(color);  // Update player's color
-                updateColorSelection(player, colorRects);  // Update color selection visuals
+                player.setColor(color);
+                updateColorSelection(player, colorRects);
             });
 
             colorBox.getChildren().add(colorRect);
@@ -202,7 +198,6 @@ public class EditPlayersView extends Application {
 
         removeButton.setOnAction(e -> removePlayer(player));
 
-        // Use HBox with HGrow to push the remove button to the right
         HBox nameColorBox = new HBox(15, nameField, colorBox);
         HBox.setHgrow(nameColorBox, Priority.ALWAYS);
 
@@ -219,13 +214,12 @@ public class EditPlayersView extends Application {
         for (int i = 0; i < colorRects.size(); i++) {
             Rectangle colorRect = colorRects.get(i);
             if (player.getColor().equals(colors[i])) {
-                colorRect.setOpacity(0.7);  // Make the selected color lighter
+                colorRect.setOpacity(0.7);
             } else {
-                colorRect.setOpacity(1.0);  // Keep other colors at normal opacity
+                colorRect.setOpacity(1.0);
             }
         }
     }
-
 
     private void removePlayer(Player player) {
         players.remove(player);
@@ -252,16 +246,14 @@ public class EditPlayersView extends Application {
                 return false;
             }
         }
-        errorLabel.setText(""); // Clear error message if validation passes
+        errorLabel.setText("");
         return true;
     }
 
     private void savePlayersToFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("players.csv"))) {
-            // Write CSV header
+        try (PrintWriter writer = new PrintWriter(new FileWriter("ludo_players.csv"))) {
             writer.println("Name,Color");
 
-            // Write player data
             for (Player player : players) {
                 writer.println(player.getName() + "," + player.getColor());
             }
@@ -272,18 +264,17 @@ public class EditPlayersView extends Application {
     }
 
     private void goToLevelView(Stage primaryStage) {
-        System.out.println("Going to level view...");
-        // Navigate to another view if needed
+        System.out.println("Going to Ludo game view...");
+        // Navigate to Ludo game view
     }
 
-    // Player class to represent each player
     private class Player {
         private String name;
         private String color;
 
         public Player(String name) {
             this.name = name;
-            this.color = "Red"; // Default color
+            this.color = "#719063"; // Default color
         }
 
         public String getName() {
