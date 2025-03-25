@@ -40,11 +40,11 @@ public class EditPlayersView extends Application {
         titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-border-width: 20px; -fx-border-color: #ffffe0;");
         titleBox.getChildren().add(titleLabel);
 
-        VBox contentBox = new VBox(10);
+        VBox contentBox = new VBox(20); // Increased spacing between content elements
         contentBox.setPadding(new Insets(20));
         contentBox.setStyle("-fx-background-color: #ffffe0; -fx-border-color: #dbe8fd; -fx-border-width: 40px;");
 
-        playersBox = new VBox(10);
+        playersBox = new VBox(40); // Increased spacing between player rows
         playersBox.setStyle("-fx-background-color: #ffffe0;");
         playersBox.setPrefHeight(450); // Fixed height to create more space
         playersBox.setAlignment(Pos.TOP_LEFT);
@@ -60,6 +60,7 @@ public class EditPlayersView extends Application {
                         "-fx-border-width: 2px; " + // Border
                         "-fx-padding: 5px 10px; " + // Minimal padding
                         "-fx-font-weight: bold; " + // Bold text
+                        "-fx-font-size: 18px;" +
                         "-fx-border-radius: 5px;"); // Rounded border
 
         // Bind button width and height to scene size
@@ -75,6 +76,7 @@ public class EditPlayersView extends Application {
                         "-fx-border-color: transparent; " + // No border
                         "-fx-padding: 5px 10px; " + // Minimal padding
                         "-fx-font-weight: bold; " + // Bold text
+                        "-fx-font-size: 18px;" +
                         "-fx-border-radius: 5px;"); // Rounded border
 
         // Bind button width and height to scene size
@@ -94,6 +96,7 @@ public class EditPlayersView extends Application {
                         "-fx-border-color: transparent; " + // No border
                         "-fx-padding: 5px 10px; " + // Minimal padding
                         "-fx-font-weight: bold; " + // Bold text
+                        "-fx-font-size: 18px;" +
                         "-fx-border-radius: 5px;"); // Rounded border
 
         // Bind button width and height to scene size
@@ -119,6 +122,8 @@ public class EditPlayersView extends Application {
         Scene scene = new Scene(root, 600, 550);
         primaryStage.setTitle("Edit Players");
         primaryStage.setScene(scene);
+        primaryStage.setMaximized(true);
+
         primaryStage.show();
 
         // Add initial players to match the wireframe
@@ -140,17 +145,17 @@ public class EditPlayersView extends Application {
     private HBox createPlayerRow(Player player) {
         TextField nameField = new TextField(player.getName());
         nameField.textProperty().addListener((obs, oldVal, newVal) -> player.setName(newVal));
-        nameField.setPrefWidth(120);
+        nameField.setPrefWidth(150);
+        nameField.setPrefHeight(35);
         nameField.setStyle(
-                "-fx-background-color: transparent; " + // Transparent background
-                        "-fx-border-width: 0 0 2px 0; " + // Thin line under text
-                        "-fx-border-color: BLACK; " + // Black line
-                        "-fx-font-size: 14px; " + // Smaller font to match wireframe
-                        "-fx-font-family: 'Arial'; " + // Temporary font since AsapCondensed doesn't work yet
-                        "-fx-padding: 5px 0 0 0;"); // A little space up top
+                "-fx-background-color: transparent; " +
+                        "-fx-font-size: 16px; " +
+                        "-fx-font-family: 'Arial'; " +
+                        "-fx-font-weight: bold; " +
+                        "-fx-padding: 5px;");
 
-        HBox colorBox = new HBox(5);
-        colorBox.setPadding(new Insets(5));
+        HBox colorBox = new HBox(15); // Increased spacing between color rectangles
+        colorBox.setPadding(new Insets(7));
         colorBox.setAlignment(Pos.CENTER_LEFT);
         colorBox.setStyle("-fx-background-color: #c6e2ff;");
 
@@ -158,7 +163,7 @@ public class EditPlayersView extends Application {
         ArrayList<Rectangle> colorRects = new ArrayList<>();
 
         for (String color : colors) {
-            Rectangle colorRect = new Rectangle(20, 20, Color.web(color.toLowerCase()));
+            Rectangle colorRect = new Rectangle(30, 30, Color.web(color.toLowerCase()));
             colorRect.setFill(Color.web(color.toLowerCase()));
 
             // Add the color rectangle to the list
@@ -177,23 +182,29 @@ public class EditPlayersView extends Application {
 
         Button removeButton = new Button("-");
         removeButton.setStyle(
-                "-fx-background-color: transparent; " + // Transparent background
-                        "-fx-text-fill: black; " + // Black text
-                        "-fx-border-color: black; " + // Black border
-                        "-fx-border-width: 1px; " + // Thin border
-                        "-fx-padding: 0px 6px; " +
-                        "-fx-border-radius: 3px; " + // Rounded border
+                "-fx-background-color: transparent; " +
+                        "-fx-text-fill: black; " +
+                        "-fx-border-color: black; " +
+                        "-fx-border-width: 1px; " +
+                        "-fx-padding: 5px; " +
+                        "-fx-border-radius: 5px; " +
                         "-fx-font-weight: bold;" +
-                        "-fx-font-size: 15px; "); // Bold text
+                        "-fx-font-size: 16px; ");
 
-        removeButton.setMaxHeight(20); // Set max height
-        removeButton.setMaxWidth(20);  // Set max width
+        removeButton.setPrefSize(35, 35);
+        removeButton.setAlignment(Pos.CENTER);
+
         removeButton.setOnAction(e -> removePlayer(player));
 
-        HBox row = new HBox(10, nameField, colorBox, removeButton);
+        // Use HBox with HGrow to push the remove button to the right
+        HBox nameColorBox = new HBox(15, nameField, colorBox);
+        HBox.setHgrow(nameColorBox, Priority.ALWAYS);
+
+        HBox row = new HBox(15, nameColorBox, removeButton);
         row.setAlignment(Pos.CENTER_LEFT);
-        row.setPadding(new Insets(5));
+        row.setPadding(new Insets(7));
         row.setStyle("-fx-background-color: #e6f2ff;");
+        row.setPrefHeight(60);
 
         return row;
     }
