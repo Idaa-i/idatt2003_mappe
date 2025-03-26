@@ -1,5 +1,6 @@
 package edu.ntnu.components;
 
+import edu.ntnu.game.Die;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
@@ -11,14 +12,15 @@ import javafx.scene.shape.Rectangle;
 public class DiceImage extends Group {
   private static final double SIZE = 50;
   private static final double DOT_RADIUS = 5;
+  private Die die;
 
   /**
    * Konstruktør for DiceImage.
    *
-   * @param width  bredden på terningbildet
-   * @param height høyden på terningbildet
+   * @param die terningen som skal vises
    */
-  public DiceImage(double width, double height) {
+  public DiceImage(Die die) {
+    this.die = die;
     Rectangle background = new Rectangle(SIZE, SIZE);
     background.setFill(Color.WHITE);
     background.setStroke(Color.BLACK);
@@ -26,19 +28,14 @@ public class DiceImage extends Group {
     background.setArcWidth(15);
     background.setArcHeight(15);
     getChildren().add(background);
+    updateDiceFace();
   }
 
-  /**
-   * Setter terningens verdi.
-   *
-   * @param value terningens verdi (må være mellom 1 og 6)
-   * @throws IllegalArgumentException hvis verdien ikke er mellom 1 og 6
-   */
-  public void setDiceFace(int value) {
+  public void updateDiceFace() {
+    int value = die.getValue();
     if (value < 1 || value > 6) {
       throw new IllegalArgumentException("Terningverdien må være mellom 1 og 6");
     }
-
     getChildren().removeIf(node -> node instanceof Circle);
 
     switch (value) {
