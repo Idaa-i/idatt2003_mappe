@@ -1,6 +1,8 @@
 package edu.ntnu.views;
 
 import edu.ntnu.components.DiceImage;
+import edu.ntnu.game.Dice;
+import edu.ntnu.game.Die;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -25,6 +27,8 @@ public class HardSnLGameView extends Application {
    */
   @Override
   public void start(Stage primaryStage) {
+    Dice dice = new Dice(2);
+
     InputStream imageStream = getClass().getResourceAsStream("/images/snakes-and-ladders-hard.png");
     if (imageStream == null) {
       throw new IllegalStateException("Kan ikke finne snakes-and-ladders-hard.png på /images/snakes-and-ladders-hard.png. Sørg for at filen er i src/main/resources/images/");
@@ -34,11 +38,15 @@ public class HardSnLGameView extends Application {
     boardImageView.setFitWidth(600);
     boardImageView.setFitHeight(600);
 
+
     //Oppretter statiske terningbilder (kun for for det visuelle)
-    DiceImage diceImage1 = new DiceImage(50, 50);
-    DiceImage diceImage2 = new DiceImage(50, 50);
-    diceImage1.setDiceFace(1);
-    diceImage2.setDiceFace(1);
+    Die die1 = new Die();
+    die1.roll();
+    Die die2 = new Die();
+    die2.roll();
+
+    DiceImage diceImage1 = new DiceImage(die1);
+    DiceImage diceImage2 = new DiceImage(die2);
 
     Button rollButton = new Button("ROLL!");
     rollButton.setStyle(
