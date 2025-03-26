@@ -27,8 +27,6 @@ public class HardSnLGameView extends Application {
    */
   @Override
   public void start(Stage primaryStage) {
-    Dice dice = new Dice(2);
-
     InputStream imageStream = getClass().getResourceAsStream("/images/snakes-and-ladders-hard.png");
     if (imageStream == null) {
       throw new IllegalStateException("Kan ikke finne snakes-and-ladders-hard.png på /images/snakes-and-ladders-hard.png. Sørg for at filen er i src/main/resources/images/");
@@ -41,9 +39,7 @@ public class HardSnLGameView extends Application {
 
     //Oppretter statiske terningbilder (kun for for det visuelle)
     Die die1 = new Die();
-    die1.roll();
     Die die2 = new Die();
-    die2.roll();
 
     DiceImage diceImage1 = new DiceImage(die1);
     DiceImage diceImage2 = new DiceImage(die2);
@@ -57,6 +53,13 @@ public class HardSnLGameView extends Application {
             "-fx-border-radius: 5px; " +
             "-fx-padding: 10px 20px;"
     );
+
+    rollButton.setOnAction(event -> {
+      die1.roll();
+      die2.roll();
+      diceImage1.updateDiceFace();
+      diceImage2.updateDiceFace();
+    });
 
     HBox diceBox = new HBox(20, diceImage1, diceImage2); // Økt avstand mellom terningene
     diceBox.setAlignment(Pos.CENTER);
