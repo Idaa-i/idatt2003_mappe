@@ -65,12 +65,21 @@ public class Player {
             return;
         }
 
-        TileAction action = board.getAction(newPosition);
+        TileAction action = newTile.getAction(newTile.getPosition());
         if (action != null) {
-            newPosition = action.execute(newPosition);
-            newTile = board.getTile(newPosition);
+            int updatedPosition = action.execute(newPosition);
+
+            // Handle special actions
             if (action instanceof SkipOneRoundAction) {
                 skipOneRound = true;
+            }
+
+            if (updatedPosition != newPosition) {
+                newTile = board.getTile(updatedPosition);
+                if (newTile == null) {
+                    System.err.println("Invalid destination from action: " + updatedPosition);
+                    return;
+                }
             }
         }
 
