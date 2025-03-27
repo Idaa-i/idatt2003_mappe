@@ -21,22 +21,6 @@ public class BoardGame {
         gameOver = false;
         observers = new ArrayList<>();
 
-        board.addAction(new LadderAction(16), 6);
-        board.addAction(new LadderAction(46), 34);
-        board.addAction(new LadderAction(83), 79);
-
-        board.addAction(new SnakeAction(2), 22);
-        board.addAction(new SnakeAction(9), 27);
-        board.addAction(new SnakeAction(36), 58);
-        board.addAction(new SnakeAction(52), 70);
-        board.addAction(new SnakeAction(64), 86);
-
-        board.addAction(new BackToStartAction(1), 38);
-        board.addAction(new BackToStartAction(1), 67);
-
-        board.addAction(new SkipOneRoundAction(32), 32);
-        board.addAction(new SkipOneRoundAction(41), 41);
-
         for (int i = 1; i <= numPlayers; i++) {
             players.add(new Player("Player " + i, board.getStartTile()));
         }

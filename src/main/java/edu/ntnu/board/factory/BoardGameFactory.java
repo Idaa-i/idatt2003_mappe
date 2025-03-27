@@ -53,12 +53,22 @@ public class BoardGameFactory {
      */
     private static BoardGame createHardBoardGame(int numPlayers) {
         Board board = new Board(90);
-        board.getTile(3).setAction(new LadderAction(22));
-        board.getTile(6).setAction(new LadderAction(15));
-        board.getTile(17).setAction(new SnakeAction(5));
-        board.getTile(28).setAction(new SnakeAction(8));
+
+        board.getTile(6).setAction(new LadderAction(16));
+        board.getTile(34).setAction(new LadderAction(46));
+        board.getTile(79).setAction(new LadderAction(83));
+
+        board.getTile(22).setAction(new SnakeAction(2));
+        board.getTile(27).setAction(new SnakeAction(9));
+        board.getTile(58).setAction(new SnakeAction(36));
+        board.getTile(70).setAction(new SnakeAction(52));
+        board.getTile(86).setAction(new SnakeAction(64));
+
         board.getTile(38).setAction(new BackToStartAction(1));
-        board.getTile(32).setAction(new SkipOneRoundAction(32));
+        board.getTile(67).setAction(new BackToStartAction(1));
+
+        board.getTile(32).setAction(new SkipOneRoundAction( 32));
+        board.getTile(41).setAction(new SkipOneRoundAction(41));
         return new BoardGame(board, numPlayers);
     }
 
