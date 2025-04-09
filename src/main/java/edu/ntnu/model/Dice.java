@@ -1,4 +1,4 @@
-package edu.ntnu.game;
+package edu.ntnu.model;
 
 import java.util.ArrayList;
 import java.util.List;

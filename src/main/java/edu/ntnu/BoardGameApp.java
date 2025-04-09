@@ -1,6 +1,6 @@
 package edu.ntnu;
-import edu.ntnu.board.factory.BoardGameFactory;
-import edu.ntnu.game.BoardGame;
+import edu.ntnu.utils.BoardGameFactory;
+import edu.ntnu.model.BoardGame;
 
 
 public class BoardGameApp {

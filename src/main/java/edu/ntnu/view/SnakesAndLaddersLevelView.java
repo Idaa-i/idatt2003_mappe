@@ -1,4 +1,4 @@
-package edu.ntnu.views;
+package edu.ntnu.view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;

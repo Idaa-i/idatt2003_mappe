@@ -1,4 +1,4 @@
-package edu.ntnu.board;
+package edu.ntnu.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 

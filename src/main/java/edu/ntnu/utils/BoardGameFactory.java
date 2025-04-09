@@ -1,9 +1,8 @@
-package edu.ntnu.board.factory;
+package edu.ntnu.utils;
 
-import edu.ntnu.board.*;
-import edu.ntnu.game.BoardGame;
+import edu.ntnu.model.*;
+import edu.ntnu.model.BoardGame;
 import com.google.gson.*;
-import edu.ntnu.board.*;
 
 import java.io.*;
 import java.util.ArrayList;

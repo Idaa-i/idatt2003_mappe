@@ -1,7 +1,7 @@
 package edu.ntnu;
 
 import com.opencsv.CSVWriter;
-import edu.ntnu.game.Player;
+import edu.ntnu.model.Player;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;

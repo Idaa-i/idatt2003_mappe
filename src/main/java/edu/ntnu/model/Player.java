@@ -1,10 +1,6 @@
-package edu.ntnu.game;
+package edu.ntnu.model;
 
 import edu.ntnu.CSVExample;
-import edu.ntnu.board.SkipOneRoundAction;
-import edu.ntnu.board.Tile;
-import edu.ntnu.board.Board;
-import edu.ntnu.board.TileAction;
 
 public class Player {
     private String name;

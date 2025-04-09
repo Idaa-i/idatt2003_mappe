@@ -1,4 +1,4 @@
-package edu.ntnu.board;
+package edu.ntnu.model;
 
 public class BackToStartAction implements TileAction{
   private int destination;

@@ -1,8 +1,7 @@
-package edu.ntnu.views;
+package edu.ntnu.view;
 
-import edu.ntnu.components.DiceImage;
-import edu.ntnu.game.Dice;
-import edu.ntnu.game.Die;
+import edu.ntnu.view.components.DiceImage;
+import edu.ntnu.model.Die;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -29,7 +28,7 @@ public class HardSnLGameView extends Application {
   public void start(Stage primaryStage) {
     InputStream imageStream = getClass().getResourceAsStream("/images/snakes-and-ladders-hard.png");
     if (imageStream == null) {
-      throw new IllegalStateException("Kan ikke finne snakes-and-ladders-hard.png på /images/snakes-and-ladders-hard.png. Sørg for at filen er i src/main/resources/images/");
+      throw new IllegalStateException("Kan ikke finne bildet!");
     }
     ImageView boardImageView = new ImageView(new Image(imageStream));
 
@@ -61,9 +60,9 @@ public class HardSnLGameView extends Application {
       diceImage2.updateDiceFace();
     });
 
-    HBox diceBox = new HBox(20, diceImage1, diceImage2); // Økt avstand mellom terningene
+    HBox diceBox = new HBox(20, diceImage1, diceImage2);
     diceBox.setAlignment(Pos.CENTER);
-    VBox bottomBox = new VBox(20, diceBox, rollButton); // Økt avstand mellom terninger og knapp
+    VBox bottomBox = new VBox(20, diceBox, rollButton);
     bottomBox.setAlignment(Pos.CENTER);
     bottomBox.setPadding(new Insets(20));
 

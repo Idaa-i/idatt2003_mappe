@@ -1,4 +1,4 @@
-package edu.ntnu.board;
+package edu.ntnu.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +29,6 @@ public class Board {
   public Tile getStartTile() {
     return tiles.get(1);
   }
-
 
   /**
    * Metode for å legge til felt på brettet.

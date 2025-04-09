@@ -1,6 +1,6 @@
-package edu.ntnu.components;
+package edu.ntnu.view.components;
 
-import edu.ntnu.game.Die;
+import edu.ntnu.model.Die;
 import javafx.scene.Group;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;

@@ -1,4 +1,4 @@
-package edu.ntnu.board;
+package edu.ntnu.model;
 
 import java.util.HashMap;
 import java.util.Map;

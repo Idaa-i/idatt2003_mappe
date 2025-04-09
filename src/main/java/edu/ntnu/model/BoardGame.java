@@ -1,11 +1,5 @@
-package edu.ntnu.game;
-import edu.ntnu.board.BackToStartAction;
-import edu.ntnu.board.LadderAction;
-import edu.ntnu.board.SkipOneRoundAction;
-import edu.ntnu.board.SnakeAction;
-import edu.ntnu.board.TileAction;
+package edu.ntnu.model;
 import java.util.*;
-import edu.ntnu.board.Board;
 
 public class BoardGame {
     private Board board;
