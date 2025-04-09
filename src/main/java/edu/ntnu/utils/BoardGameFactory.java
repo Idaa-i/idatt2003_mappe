@@ -2,18 +2,19 @@ package edu.ntnu.utils;
 
 import edu.ntnu.model.*;
 
+import java.util.List;
 import java.util.Map;
 
 public class BoardGameFactory {
-    public static BoardGame createBoardGame(String type, int numPlayers) {
+    public static BoardGame createBoardGame(String type, List<Player> players) {
         switch (type.toLowerCase()) {
-            case "easy": return createEasyBoardGame(numPlayers);
-            case "hard": return createHardBoardGame(numPlayers);
+            case "easy": return createEasyBoardGame(players);
+            case "hard": return createHardBoardGame(players);
             default: throw new IllegalArgumentException("Unknown board game type: " + type);
         }
     }
 
-    private static BoardGame createEasyBoardGame(int numPlayers) {
+    private static BoardGame createEasyBoardGame(List<Player> players) {
         Board board = new Board(36);
         board.getTile(14).setAction(new SnakeAction(2));
         board.getTile(30).setAction(new SnakeAction(19));
@@ -23,14 +24,14 @@ public class BoardGameFactory {
 
         board.getTile(26).setAction(new SkipOneRoundAction());
 
-        BoardGame game = new BoardGame(board, numPlayers, 1);
+        BoardGame game = new BoardGame(board, players, 1);
         for (Player player : game.getPlayers()) {
             player.setBoard(board);
         }
         return game;
     }
 
-    private static BoardGame createHardBoardGame(int numPlayers) {
+    private static BoardGame createHardBoardGame(List<Player> players) {
         Board board = new Board(90);
 
         board.getTile(22).setAction(new SnakeAction(2));
@@ -49,18 +50,18 @@ public class BoardGameFactory {
         board.getTile(32).setAction(new SkipOneRoundAction());
         board.getTile(41).setAction(new SkipOneRoundAction());
 
-        BoardGame game = new BoardGame(board, numPlayers, 2);
+        BoardGame game = new BoardGame(board, players, 2);
         for (Player player : game.getPlayers()) {
             player.setBoard(board);
         }
         return game;
     }
 
-    public static BoardGame createCustomBoardGame(int numTiles, Map<Integer, TileAction> tileActions, int numPlayers) {
+    public static BoardGame createCustomBoardGame(int numTiles, Map<Integer, TileAction> tileActions, List<Player> players) {
         Board board = new Board(numTiles);
         for (Map.Entry<Integer, TileAction> entry : tileActions.entrySet()) {
             board.getTile(entry.getKey()).setAction(entry.getValue());
         }
-        return new BoardGame(board, numPlayers, 1);
+        return new BoardGame(board, players, 1);
     }
 }

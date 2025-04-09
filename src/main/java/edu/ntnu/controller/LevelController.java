@@ -1,10 +1,12 @@
 package edu.ntnu.controller;
 
+import edu.ntnu.model.Player;
 import edu.ntnu.utils.BoardGameFactory;
 import edu.ntnu.model.BoardGame;
 import edu.ntnu.view.SnakesAndLaddersLevelView;
 import edu.ntnu.view.HardSnLGameView;
 import edu.ntnu.view.EasySnLGameView;
+import java.util.List;
 
 public class LevelController {
   private SnakesAndLaddersLevelView view;
@@ -13,8 +15,8 @@ public class LevelController {
     this.view = view;
   }
 
-  public void openGame(String level) {
-    BoardGame game = BoardGameFactory.createBoardGame(level.toLowerCase(), 2);
+  public void openGame(String level, List<Player> players) {
+    BoardGame game = BoardGameFactory.createBoardGame(level.toLowerCase(), players);
     if (level.equalsIgnoreCase("Hard")) {
       HardSnLGameView gameView = new HardSnLGameView(game);
       gameView.start(view.getStage());

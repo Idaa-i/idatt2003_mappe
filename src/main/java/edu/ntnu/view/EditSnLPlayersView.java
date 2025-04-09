@@ -33,7 +33,7 @@ public class EditSnLPlayersView extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        start(primaryStage, null); // Default start method calls the parameterized one
+        start(primaryStage, null);
     }
 
     public void start(Stage primaryStage, String game) {
@@ -181,7 +181,7 @@ public class EditSnLPlayersView extends Application {
     }
 
     private void goToLevelView(Stage primaryStage) {
-        SnakesAndLaddersLevelView levelView = new SnakesAndLaddersLevelView();
+        SnakesAndLaddersLevelView levelView = new SnakesAndLaddersLevelView(controller.getPlayers());
         levelView.start(primaryStage);
     }
 }

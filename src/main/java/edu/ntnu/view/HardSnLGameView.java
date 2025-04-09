@@ -23,9 +23,6 @@ public class HardSnLGameView extends Application implements GameView {
   private DiceImage diceImage2;
   private Label winnerLabel;
 
-  public HardSnLGameView() {
-  }
-
   public HardSnLGameView(BoardGame model) {
     this.model = model;
   }

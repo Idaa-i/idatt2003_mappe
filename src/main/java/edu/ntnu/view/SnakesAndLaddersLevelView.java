@@ -1,6 +1,9 @@
 package edu.ntnu.view;
 
 import edu.ntnu.controller.LevelController;
+import edu.ntnu.model.Player;
+import java.util.ArrayList;
+import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -15,8 +18,13 @@ import javafx.stage.Stage;
 public class SnakesAndLaddersLevelView extends Application {
   private LevelController controller;
   private Stage stage;
+  private List<Player> players;
   private static final double INITIAL_WIDTH = 600;
   private static final double INITIAL_HEIGHT = 400;
+
+  public SnakesAndLaddersLevelView(List<Player> players) {
+    this.players = players;
+  }
 
   @Override
   public void start(Stage stage) {
@@ -33,12 +41,12 @@ public class SnakesAndLaddersLevelView extends Application {
     ImageView hardImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders-hard.png").toExternalForm()));
     hardImage.setPreserveRatio(true);
     hardImage.fitWidthProperty().bind(root.widthProperty().multiply(0.25));
-    hardImage.setOnMouseClicked(event -> controller.openGame("Hard"));
+    hardImage.setOnMouseClicked(event -> controller.openGame("Hard", players));
 
     ImageView easyImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders.png").toExternalForm()));
     easyImage.setPreserveRatio(true);
     easyImage.fitWidthProperty().bind(root.widthProperty().multiply(0.25));
-    easyImage.setOnMouseClicked(event -> controller.openGame("Easy"));
+    easyImage.setOnMouseClicked(event -> controller.openGame("Easy", players));
 
     Label hardLabel = new Label("Hard");
     Label easyLabel = new Label("Easy");

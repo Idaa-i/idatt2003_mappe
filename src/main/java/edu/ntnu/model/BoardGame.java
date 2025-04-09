@@ -10,15 +10,15 @@ public class BoardGame {
     private boolean gameOver;
     private List<BoardGameObserver> observers;
 
-    public BoardGame(Board board, int numPlayers, int numDice) {
+    public BoardGame(Board board, List<Player> players, int numDice) {
         this.board = board;
-        this.players = new ArrayList<>();
-        this.dice = new Dice(numDice); // Antall terninger settes her
+        this.players = new ArrayList<>(players);
+        this.dice = new Dice(numDice);
         this.gameOver = false;
         this.observers = new ArrayList<>();
 
-        for (int i = 1; i <= numPlayers; i++) {
-            players.add(new Player("Player " + i, board.getStartTile()));
+        for (Player player : this.players) {
+            player.setCurrentTile(board.getStartTile());
         }
     }
 
