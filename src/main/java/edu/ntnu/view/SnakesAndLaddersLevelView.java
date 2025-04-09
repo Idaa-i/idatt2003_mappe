@@ -1,5 +1,6 @@
 package edu.ntnu.view;
 
+import edu.ntnu.controller.LevelController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -10,30 +11,32 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class SnakesAndLaddersLevelView extends Application {
+  private LevelController controller;
+  private Stage stage;
+
+  @Override
   public void start(Stage stage) {
+    this.stage = stage;
+    this.controller = new LevelController(this);
+
     Label selectLevel = new Label("Select level");
     selectLevel.setStyle("-fx-font-size: 20px;");
 
     ImageView hardImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders-hard.png").toExternalForm()));
     hardImage.setFitHeight(150);
     hardImage.setFitWidth(150);
-    hardImage.setOnMouseClicked(event -> openGame("Hard"));
+    hardImage.setOnMouseClicked(event -> controller.openGame("Hard"));
 
     ImageView easyImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders.png").toExternalForm()));
     easyImage.setFitHeight(150);
     easyImage.setFitWidth(150);
-    easyImage.setOnMouseClicked(event -> openGame("Easy"));
+    easyImage.setOnMouseClicked(event -> controller.openGame("Easy"));
 
     Label hardLabel = new Label("Hard");
-    hardLabel.setStyle("-fx-font-size: 16px;");
     Label easyLabel = new Label("Easy");
-    easyLabel.setStyle("-fx-font-size: 16px;");
 
     VBox hardBox = new VBox(10, hardLabel, hardImage);
-    hardBox.setStyle("-fx-alignment: center;");
-
     VBox easyBox = new VBox(10, easyLabel, easyImage);
-    easyBox.setStyle("-fx-alignment: center;");
 
     HBox gameSelection = new HBox(20, hardBox, easyBox);
     gameSelection.setStyle("-fx-alignment: center;");
@@ -42,21 +45,12 @@ public class SnakesAndLaddersLevelView extends Application {
     root.setStyle("-fx-alignment: center; -fx-padding: 20px;");
 
     Scene scene = new Scene(root, 600, 400);
-
-    String fontUrl = getClass().getResource("/fonts/AsapCondensed-Black.ttf").toExternalForm();
-    scene.getStylesheets().add(fontUrl);
-
     stage.setTitle("Level Selection");
     stage.setScene(scene);
     stage.show();
   }
 
-  private void openGame(String level) {
-    System.out.println("Navigating to game");
-    // Implement navigation path here
-  }
-
-  public static void main(String[] args) {
-    launch(args);
+  public Stage getStage() {
+    return stage;
   }
 }

@@ -11,13 +11,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class BoardGameTest {
     private BoardGame boardGame;
     private Board board;
-    private Dice dice;
 
     @BeforeEach
     void setUp() {
-        //boardGame = new BoardGame(board,2);
         board = new Board(90);
-        dice = new Dice(2);
+        boardGame = new BoardGame(board, 4, 2);
     }
 
     @Test

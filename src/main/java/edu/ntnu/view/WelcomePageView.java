@@ -10,7 +10,6 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class WelcomePageView extends Application {
-
     @Override
     public void start(Stage primaryStage) {
         Label titleLabel = new Label("Welcome to our boardgame");
@@ -42,18 +41,14 @@ public class WelcomePageView extends Application {
         root.setStyle("-fx-alignment: center; -fx-padding: 20px;");
 
         Scene scene = new Scene(root, 600, 400);
-
-        String fontUrl = getClass().getResource("/fonts/AsapCondensed-Black.ttf").toExternalForm();
-        scene.getStylesheets().add(fontUrl);
-
         primaryStage.setTitle("Boardgame Selection");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
     private void openEditPlayers(String game) {
-        System.out.println("Navigating to Edit Players for: " + game);
-        // Implement navigation to EditPlayersView here
+        EditSnLPlayersView editView = new EditSnLPlayersView();
+        editView.start(new Stage());
     }
 
     public static void main(String[] args) {

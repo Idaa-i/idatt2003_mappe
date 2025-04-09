@@ -1,52 +1,54 @@
 package edu.ntnu.view;
 
+import edu.ntnu.controller.PlayerController;
+import edu.ntnu.model.Player;
+import edu.ntnu.utils.CSVUtils;
+import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
-import java.io.*;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
 public class EditSnLPlayersView extends Application {
     private VBox playersBox;
-    private ArrayList<Player> players = new ArrayList<>();
+    private PlayerController controller;
     private final int MAX_PLAYERS = 4;
     private final String[] colors = {"Red", "Orange", "Yellow", "Green", "Cyan", "Magenta"};
     private Label errorLabel;
     private HashMap<Player, HBox> playerRows = new HashMap<>();
 
-    public static void main(String[] args) {
-        launch(args);
-    }
-
     @Override
     public void start(Stage primaryStage) {
-        BorderPane root = new BorderPane();
-        root.setStyle("-fx-background-color: #dbe8fd;"); // Pale blue background
+        this.controller = new PlayerController(this);
 
-        // Title with yellow background, no padding
+        BorderPane root = new BorderPane();
+        root.setStyle("-fx-background-color: #dbe8fd;");
+
         HBox titleBox = new HBox();
-        titleBox.setStyle("-fx-background-color: #ffffe0;"); // Yellow background for header
+        titleBox.setStyle("-fx-background-color: #ffffe0;");
         titleBox.setAlignment(Pos.CENTER_LEFT);
 
         Label titleLabel = new Label("Edit players:");
-        titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold; -fx-border-width: 20px; -fx-border-color: #ffffe0;");
+        titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
         titleBox.getChildren().add(titleLabel);
 
-        VBox contentBox = new VBox(20); // Increased spacing between content elements
+        VBox contentBox = new VBox(20);
         contentBox.setPadding(new Insets(20));
-        contentBox.setStyle("-fx-background-color: #ffffe0; -fx-border-color: #dbe8fd; -fx-border-width: 40px;");
+        contentBox.setStyle("-fx-background-color: #ffffe0;");
 
-        playersBox = new VBox(40); // Increased spacing between player rows
-        playersBox.setStyle("-fx-background-color: #ffffe0;");
-        playersBox.setPrefHeight(450); // Fixed height to create more space
+        playersBox = new VBox(40);
+        playersBox.setPrefHeight(450);
         playersBox.setAlignment(Pos.TOP_LEFT);
         VBox.setVgrow(playersBox, Priority.ALWAYS);
 
@@ -54,55 +56,20 @@ public class EditSnLPlayersView extends Application {
         errorLabel.setStyle("-fx-text-fill: red;");
 
         Button addButton = new Button("Add +");
-        addButton.setStyle(
-                "-fx-background-color: #dbe8fd; " + // Blue background
-                        "-fx-text-fill: BLACK; " + // Black text
-                        "-fx-border-width: 2px; " + // Border
-                        "-fx-padding: 5px 10px; " + // Minimal padding
-                        "-fx-font-weight: bold; " + // Bold text
-                        "-fx-font-size: 18px;" +
-                        "-fx-border-radius: 5px;"); // Rounded border
-
-        // Bind button width and height to scene size
-        addButton.minWidthProperty().bind(primaryStage.widthProperty().multiply(0.15));  // 15% of window width
-        addButton.minHeightProperty().bind(primaryStage.heightProperty().multiply(0.05)); // 5% of window height
-
+        addButton.setStyle("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
         addButton.setOnAction(e -> addPlayer());
 
         Button saveButton = new Button("Save players?");
-        saveButton.setStyle(
-                "-fx-background-color: #dbe8fd; " + // Blue background
-                        "-fx-text-fill: BLACK; " + // Black text
-                        "-fx-border-color: transparent; " + // No border
-                        "-fx-padding: 5px 10px; " + // Minimal padding
-                        "-fx-font-weight: bold; " + // Bold text
-                        "-fx-font-size: 18px;" +
-                        "-fx-border-radius: 5px;"); // Rounded border
-
-        // Bind button width and height to scene size
-        saveButton.minWidthProperty().bind(primaryStage.widthProperty().multiply(0.15));  // 15% of window width
-        saveButton.minHeightProperty().bind(primaryStage.heightProperty().multiply(0.05)); // 5% of window height
-
+        saveButton.setStyle("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
         saveButton.setOnAction(e -> {
             if (validatePlayers()) {
-                savePlayersToFile();
+                CSVUtils.writePlayersToCSV("players.csv", controller.getPlayers());
+                errorLabel.setText("Players saved successfully!");
             }
         });
 
         Button playButton = new Button("Play!");
-        playButton.setStyle(
-                "-fx-background-color: #dbe8fd; " + // Blue background
-                        "-fx-text-fill: BLACK; " + // Black text
-                        "-fx-border-color: transparent; " + // No border
-                        "-fx-padding: 5px 10px; " + // Minimal padding
-                        "-fx-font-weight: bold; " + // Bold text
-                        "-fx-font-size: 18px;" +
-                        "-fx-border-radius: 5px;"); // Rounded border
-
-        // Bind button width and height to scene size
-        playButton.minWidthProperty().bind(primaryStage.widthProperty().multiply(0.15));  // 15% of window width
-        playButton.minHeightProperty().bind(primaryStage.heightProperty().multiply(0.05)); // 5% of window height
-
+        playButton.setStyle("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
         playButton.setOnAction(e -> {
             if (validatePlayers()) {
                 goToLevelView(primaryStage);
@@ -113,136 +80,78 @@ public class EditSnLPlayersView extends Application {
         buttonBox.setAlignment(Pos.BOTTOM_LEFT);
 
         contentBox.getChildren().addAll(playersBox, errorLabel, buttonBox);
-        contentBox.setAlignment(Pos.BOTTOM_LEFT);
-
-        VBox mainContent = new VBox(titleBox, contentBox);
-
-        root.setCenter(mainContent);
+        root.setCenter(new VBox(titleBox, contentBox));
 
         Scene scene = new Scene(root, 600, 550);
         primaryStage.setTitle("Edit Players");
         primaryStage.setScene(scene);
         primaryStage.setMaximized(true);
-
         primaryStage.show();
 
-        // Add initial players to match the wireframe
         addPlayer();
         addPlayer();
         addPlayer();
     }
 
     private void addPlayer() {
-        if (players.size() >= MAX_PLAYERS) {
+        if (controller.getPlayers().size() >= MAX_PLAYERS) {
             errorLabel.setText("Maximum of " + MAX_PLAYERS + " players allowed!");
             return;
         }
-
-        Player newPlayer = new Player("Player" + (players.size() + 1));
-        players.add(newPlayer);
-        HBox playerRow = createPlayerRow(newPlayer);
-        playersBox.getChildren().add(playerRow);
-        playerRows.put(newPlayer, playerRow);
-
-        // Clear any previous error message if successful
+        controller.addPlayer("Player" + (controller.getPlayers().size() + 1), colors[controller.getPlayers().size()], null);
         errorLabel.setText("");
+    }
+
+    public void updatePlayerList(List<Player> players) {
+        playersBox.getChildren().clear();
+        playerRows.clear();
+        for (Player player : players) {
+            HBox row = createPlayerRow(player);
+            playersBox.getChildren().add(row);
+            playerRows.put(player, row);
+        }
     }
 
     private HBox createPlayerRow(Player player) {
         TextField nameField = new TextField(player.getName());
         nameField.textProperty().addListener((obs, oldVal, newVal) -> player.setName(newVal));
         nameField.setPrefWidth(150);
-        nameField.setPrefHeight(35);
-        nameField.setStyle(
-                "-fx-background-color: transparent; " +
-                        "-fx-font-size: 16px; " +
-                        "-fx-font-family: 'Arial'; " +
-                        "-fx-font-weight: bold; " +
-                        "-fx-padding: 5px;");
+        nameField.setStyle("-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold;");
 
-        HBox colorBox = new HBox(15); // Increased spacing between color rectangles
+        HBox colorBox = new HBox(15);
         colorBox.setPadding(new Insets(7));
-        colorBox.setAlignment(Pos.CENTER_LEFT);
-        colorBox.setStyle("-fx-background-color: #c6e2ff;");
-
-        // Create a list to hold the color rectangles
         ArrayList<Rectangle> colorRects = new ArrayList<>();
-
         for (String color : colors) {
             Rectangle colorRect = new Rectangle(30, 30, Color.web(color.toLowerCase()));
-            colorRect.setFill(Color.web(color.toLowerCase()));
-
-            // Add the color rectangle to the list
             colorRects.add(colorRect);
-
-            colorRect.setOpacity(player.getColor().equals(color) ? 0.5 : 1.0);  // Default opacity
-
-            // Set the event to update color and appearance when selected
+            colorRect.setOpacity(player.getColor() != null && player.getColor().equals(color) ? 0.5 : 1.0);
             colorRect.setOnMouseClicked(e -> {
-                player.setColor(color);  // Update player's color
-                updateColorSelection(player, colorRects);  // Update color selection visuals
+                player.setColor(color);
+                updateColorSelection(player, colorRects);
             });
-
             colorBox.getChildren().add(colorRect);
         }
 
         Button removeButton = new Button("-");
-        removeButton.setStyle(
-                "-fx-background-color: transparent; " +
-                        "-fx-text-fill: black; " +
-                        "-fx-border-color: black; " +
-                        "-fx-border-width: 1px; " +
-                        "-fx-padding: 5px; " +
-                        "-fx-border-radius: 5px; " +
-                        "-fx-font-weight: bold;" +
-                        "-fx-font-size: 16px; ");
+        removeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 1px; -fx-font-weight: bold; -fx-font-size: 16px;");
+        removeButton.setOnAction(e -> controller.removePlayer(player));
 
-        removeButton.setPrefSize(35, 35);
-        removeButton.setAlignment(Pos.CENTER);
-
-        removeButton.setOnAction(e -> removePlayer(player));
-
-        // Use HBox with HGrow to push the remove button to the right
-        HBox nameColorBox = new HBox(15, nameField, colorBox);
-        HBox.setHgrow(nameColorBox, Priority.ALWAYS);
-
-        HBox row = new HBox(15, nameColorBox, removeButton);
+        HBox row = new HBox(15, nameField, colorBox, removeButton);
         row.setAlignment(Pos.CENTER_LEFT);
-        row.setPadding(new Insets(7));
         row.setStyle("-fx-background-color: #e6f2ff;");
-        row.setPrefHeight(60);
-
         return row;
     }
 
     private void updateColorSelection(Player player, ArrayList<Rectangle> colorRects) {
         for (int i = 0; i < colorRects.size(); i++) {
-            Rectangle colorRect = colorRects.get(i);
-            if (player.getColor().equals(colors[i])) {
-                colorRect.setOpacity(0.7);  // Make the selected color lighter
-            } else {
-                colorRect.setOpacity(1.0);  // Keep other colors at normal opacity
-            }
-        }
-    }
-
-
-    private void removePlayer(Player player) {
-        players.remove(player);
-        playersBox.getChildren().clear();
-        playerRows.remove(player);
-        for (Player p : players) {
-            HBox row = createPlayerRow(p);
-            playersBox.getChildren().add(row);
-            playerRows.put(p, row);
+            colorRects.get(i).setOpacity(player.getColor().equals(colors[i]) ? 0.7 : 1.0);
         }
     }
 
     private boolean validatePlayers() {
         HashSet<String> names = new HashSet<>();
         HashSet<String> colors = new HashSet<>();
-
-        for (Player player : players) {
+        for (Player player : controller.getPlayers()) {
             if (!names.add(player.getName())) {
                 errorLabel.setText("Duplicate names are not allowed!");
                 return false;
@@ -252,54 +161,12 @@ public class EditSnLPlayersView extends Application {
                 return false;
             }
         }
-        errorLabel.setText(""); // Clear error message if validation passes
+        errorLabel.setText("");
         return true;
     }
 
-    private void savePlayersToFile() {
-        try (PrintWriter writer = new PrintWriter(new FileWriter("players.csv"))) {
-            // Write CSV header
-            writer.println("Name,Color");
-
-            // Write player data
-            for (Player player : players) {
-                writer.println(player.getName() + "," + player.getColor());
-            }
-            errorLabel.setText("Players saved successfully!");
-        } catch (IOException e) {
-            errorLabel.setText("Failed to save players!");
-        }
-    }
-
     private void goToLevelView(Stage primaryStage) {
-        System.out.println("Going to level view...");
-        // Navigate to another view if needed
-    }
-
-    // Player class to represent each player
-    private class Player {
-        private String name;
-        private String color;
-
-        public Player(String name) {
-            this.name = name;
-            this.color = "Red"; // Default color
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
+        SnakesAndLaddersLevelView levelView = new SnakesAndLaddersLevelView();
+        levelView.start(primaryStage);
     }
 }
