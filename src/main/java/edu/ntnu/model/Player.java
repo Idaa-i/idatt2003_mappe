@@ -5,8 +5,9 @@ public class Player {
     private String color;
     private Tile currentTile;
     private boolean skipOneRound;
+    private Board board;
 
-    public Player(String name, Tile startTile){
+    public Player(String name, Tile startTile) {
         this.name = name;
         this.currentTile = startTile;
         this.skipOneRound = false;
@@ -32,12 +33,20 @@ public class Player {
         return currentTile;
     }
 
+    public void setCurrentTile(Tile currentTile) {
+        this.currentTile = currentTile;
+    }
+
     public boolean isSkipOneRound() {
         return skipOneRound;
     }
 
     public void setSkipOneRound(boolean skipOneRound) {
         this.skipOneRound = skipOneRound;
+    }
+
+    public void setBoard(Board board) {
+        this.board = board;
     }
 
     public void move(int roll, Board board) {
@@ -48,11 +57,14 @@ public class Player {
         if (currentTile == null) {
             return;
         }
+        int boardSize = board.getSize();
         int newPosition = currentTile.getPosition() + roll;
-        if (newPosition > 90) {
-            int excess = newPosition - 90;
-            newPosition = 90 - excess;
+
+        if (newPosition > boardSize) {
+            int excess = newPosition - boardSize;
+            newPosition = boardSize - excess;
         }
+
         Tile newTile = board.getTile(newPosition);
         if (newTile != null) {
             TileAction action = newTile.getAction();
@@ -68,6 +80,6 @@ public class Player {
     }
 
     public boolean hasWon() {
-        return currentTile != null && currentTile.getPosition() == 90;
+        return currentTile != null && board != null && currentTile.getPosition() == board.getSize();
     }
 }

@@ -23,7 +23,11 @@ public class BoardGameFactory {
 
         board.getTile(26).setAction(new SkipOneRoundAction());
 
-        return new BoardGame(board, numPlayers, 1); // Én terning for Easy
+        BoardGame game = new BoardGame(board, numPlayers, 1);
+        for (Player player : game.getPlayers()) {
+            player.setBoard(board);
+        }
+        return game;
     }
 
     private static BoardGame createHardBoardGame(int numPlayers) {
@@ -44,7 +48,12 @@ public class BoardGameFactory {
 
         board.getTile(32).setAction(new SkipOneRoundAction());
         board.getTile(41).setAction(new SkipOneRoundAction());
-        return new BoardGame(board, numPlayers, 2); // To terninger for Hard
+
+        BoardGame game = new BoardGame(board, numPlayers, 2);
+        for (Player player : game.getPlayers()) {
+            player.setBoard(board);
+        }
+        return game;
     }
 
     public static BoardGame createCustomBoardGame(int numTiles, Map<Integer, TileAction> tileActions, int numPlayers) {
@@ -52,6 +61,6 @@ public class BoardGameFactory {
         for (Map.Entry<Integer, TileAction> entry : tileActions.entrySet()) {
             board.getTile(entry.getKey()).setAction(entry.getValue());
         }
-        return new BoardGame(board, numPlayers, 1); // Standard til én terning
+        return new BoardGame(board, numPlayers, 1);
     }
 }

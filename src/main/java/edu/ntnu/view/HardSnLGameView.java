@@ -6,10 +6,10 @@ import edu.ntnu.model.Die;
 import edu.ntnu.model.Player;
 import edu.ntnu.view.components.DiceImage;
 import javafx.application.Application;
-import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -21,9 +21,9 @@ public class HardSnLGameView extends Application implements GameView {
   private BoardGameController controller;
   private DiceImage diceImage1;
   private DiceImage diceImage2;
+  private Label winnerLabel;
 
   public HardSnLGameView() {
-    // Standardkonstruktør for JavaFX
   }
 
   public HardSnLGameView(BoardGame model) {
@@ -58,7 +58,12 @@ public class HardSnLGameView extends Application implements GameView {
 
     HBox diceBox = new HBox(20, diceImage1, diceImage2);
     diceBox.setAlignment(Pos.CENTER);
-    VBox bottomBox = new VBox(20, diceBox, rollButton);
+
+    winnerLabel = new Label("");
+    winnerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
+    winnerLabel.setAlignment(Pos.CENTER);
+
+    VBox bottomBox = new VBox(20, diceBox, rollButton, winnerLabel);
     bottomBox.setAlignment(Pos.CENTER);
 
     VBox root = new VBox(20, boardImageView, bottomBox);
@@ -78,5 +83,13 @@ public class HardSnLGameView extends Application implements GameView {
   @Override
   public void updatePlayerPosition(Player player) {
     System.out.println(player.getName() + " moved to tile " + player.getCurrentTile().getPosition());
+  }
+
+  @Override
+  public void announceWinner(Player winner) {
+    winnerLabel.setText(winner.getName() + " has won the game!");
+    VBox bottomBox = (VBox) winnerLabel.getParent();
+    Button rollButton = (Button) bottomBox.getChildren().get(1);
+    rollButton.setDisable(true);
   }
 }

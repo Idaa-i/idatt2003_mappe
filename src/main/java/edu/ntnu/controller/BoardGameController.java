@@ -3,6 +3,7 @@ package edu.ntnu.controller;
 import edu.ntnu.model.BoardGame;
 import edu.ntnu.model.Player;
 import edu.ntnu.view.GameView;
+import javafx.application.Platform;
 
 /**
  * Class for handling game logic and mediating the interactions between BoardGame and GameView
@@ -40,6 +41,14 @@ public class BoardGameController {
       if (player.hasWon()) {
         model.setGameOver(true);
         model.notifyPlayerWon(player);
+        view.announceWinner(player);
+        new Thread(() -> {
+          try {
+            Thread.sleep(2000);
+          } catch (InterruptedException e) {
+            e.printStackTrace();
+          }
+        }).start();
         break;
       }
     }

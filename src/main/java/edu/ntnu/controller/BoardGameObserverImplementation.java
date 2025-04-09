@@ -26,6 +26,6 @@ public class BoardGameObserverImplementation implements BoardGameObserver {
 
   @Override
   public void onPlayerWin(Player winner) {
-    view.showMessage(winner.getName() + " has won the game!");
+    view.announceWinner(winner);
   }
 }
