@@ -6,13 +6,10 @@ import java.util.Map;
 public class Tile {
     private int position;
     private TileAction action;
-    private Map<Integer, TileAction> actions;
 
 
     public Tile(int position) {
         this.position = position;
-        this.actions = new HashMap<>();
-
     }
 
     public int getPosition() {
@@ -22,11 +19,10 @@ public class Tile {
     /**
      * Metode for å hente handlingen på et spesifikt felt.
      *
-     * @param position posisjonen til feltet
      * @return handlingen på feltet
      */
-    public TileAction getAction(int position) {
-        return actions.get(position);
+    public TileAction getAction() {
+        return action;
     }
 
     /**

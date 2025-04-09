@@ -8,7 +8,6 @@ public class SkipOneRoundAction implements TileAction{
   }
 
   public int execute(int position) {
-    System.out.println("Skip next round!");
     return destination;
   }
 }
