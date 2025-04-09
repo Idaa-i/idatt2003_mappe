@@ -3,7 +3,6 @@ package edu.ntnu.controller;
 import edu.ntnu.model.BoardGame;
 import edu.ntnu.model.Player;
 import edu.ntnu.view.GameView;
-import javafx.application.Platform;
 
 /**
  * Class for handling game logic and mediating the interactions between BoardGame and GameView
@@ -11,6 +10,7 @@ import javafx.application.Platform;
 public class BoardGameController {
   private BoardGame model;
   private GameView view;
+  private int currentPlayerIndex = 0;
 
   /**
    * Constructs a BoardGameController with the specified model and view.
@@ -26,31 +26,31 @@ public class BoardGameController {
   /**
    * Method for executing game turn for all players.
    */
-  public void playTurn() {
-    for (Player player : model.getPlayers()) {
-      if (player.isSkipOneRound()) {
-        view.showMessage(player.getName() + " skips this round");
-        player.setSkipOneRound(false);
-        continue;
-      }
-      int roll = model.rollDice();
-      view.showMessage(player.getName() + " rolled " + roll);
-      player.move(roll, model.getBoard());
-      model.notifyPlayerMove(player);
+  public void playTurn(int roll) {
+    Player currentPlayer = model.getPlayers().get(currentPlayerIndex);
 
-      if (player.hasWon()) {
-        model.setGameOver(true);
-        model.notifyPlayerWon(player);
-        view.announceWinner(player);
-        new Thread(() -> {
-          try {
-            Thread.sleep(2000);
-          } catch (InterruptedException e) {
-            e.printStackTrace();
-          }
-        }).start();
-        break;
-      }
+    if (currentPlayer.isSkipOneRound()) {
+      view.showMessage(currentPlayer.getName() + " skips this round");
+      currentPlayer.setSkipOneRound(false);
+      advanceToNextPlayer();
+      return;
     }
+
+    view.showMessage(currentPlayer.getName() + " rolled " + roll);
+    currentPlayer.move(roll, model.getBoard());
+    model.notifyPlayerMove(currentPlayer);
+
+    if (currentPlayer.hasWon()) {
+      model.setGameOver(true);
+      model.notifyPlayerWon(currentPlayer);
+      view.announceWinner(currentPlayer);
+    } else {
+      advanceToNextPlayer();
+    }
+  }
+
+
+  private void advanceToNextPlayer() {
+    currentPlayerIndex = (currentPlayerIndex + 1) % model.getPlayers().size();
   }
 }

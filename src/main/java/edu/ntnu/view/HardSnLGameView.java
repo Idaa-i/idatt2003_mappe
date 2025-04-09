@@ -50,14 +50,16 @@ public class HardSnLGameView extends Application implements GameView {
       die2.roll();
       diceImage1.updateDiceFace();
       diceImage2.updateDiceFace();
-      controller.playTurn();
+      int roll = die1.getValue() + die2.getValue();
+      controller.playTurn(roll);
     });
+
 
     HBox diceBox = new HBox(20, diceImage1, diceImage2);
     diceBox.setAlignment(Pos.CENTER);
 
     winnerLabel = new Label("");
-    winnerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
+    winnerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: green;");
     winnerLabel.setAlignment(Pos.CENTER);
 
     VBox bottomBox = new VBox(20, diceBox, rollButton, winnerLabel);

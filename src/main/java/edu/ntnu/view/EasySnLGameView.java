@@ -48,14 +48,16 @@ public class EasySnLGameView extends Application implements GameView {
     rollButton.setOnAction(event -> {
       die.roll();
       diceImage.updateDiceFace();
-      controller.playTurn();
+      int roll = die.getValue();
+      controller.playTurn(roll);
     });
+
 
     HBox diceBox = new HBox(20, diceImage);
     diceBox.setAlignment(Pos.CENTER);
 
     winnerLabel = new Label("");
-    winnerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: #ff0000;");
+    winnerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: green;");
     winnerLabel.setAlignment(Pos.CENTER);
 
     VBox bottomBox = new VBox(20, diceBox, rollButton, winnerLabel);
