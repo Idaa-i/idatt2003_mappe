@@ -1,14 +1,13 @@
 package edu.ntnu.model;
 
 public class SkipOneRoundAction implements TileAction{
-  private int destination;
+  private int position;
 
-  public SkipOneRoundAction(int destination) {
-    this.destination = destination;
+  public SkipOneRoundAction() {
   }
 
   public int execute(int position) {
-    return destination;
+    return position;
   }
 }
 

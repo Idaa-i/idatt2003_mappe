@@ -3,7 +3,6 @@ package edu.ntnu.view;
 import edu.ntnu.controller.PlayerController;
 import edu.ntnu.model.Player;
 import edu.ntnu.utils.CSVUtils;
-import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -19,6 +18,7 @@ import javafx.stage.Stage;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 public class EditSnLPlayersView extends Application {
     private VBox playersBox;
@@ -27,9 +27,17 @@ public class EditSnLPlayersView extends Application {
     private final String[] colors = {"Red", "Orange", "Yellow", "Green", "Cyan", "Magenta"};
     private Label errorLabel;
     private HashMap<Player, HBox> playerRows = new HashMap<>();
+    private static final double INITIAL_WIDTH = 600;
+    private static final double INITIAL_HEIGHT = 400;
+    private String selectedGame;
 
     @Override
     public void start(Stage primaryStage) {
+        start(primaryStage, null); // Default start method calls the parameterized one
+    }
+
+    public void start(Stage primaryStage, String game) {
+        this.selectedGame = game;
         this.controller = new PlayerController(this);
 
         BorderPane root = new BorderPane();
@@ -38,29 +46,29 @@ public class EditSnLPlayersView extends Application {
         HBox titleBox = new HBox();
         titleBox.setStyle("-fx-background-color: #ffffe0;");
         titleBox.setAlignment(Pos.CENTER_LEFT);
+        titleBox.setPadding(new Insets(10));
 
         Label titleLabel = new Label("Edit players:");
-        titleLabel.setStyle("-fx-font-size: 25px; -fx-font-weight: bold;");
+        titleLabel.styleProperty().bind(root.widthProperty().multiply(0.05).asString("-fx-font-size: %fpx; -fx-font-weight: bold"));
         titleBox.getChildren().add(titleLabel);
 
         VBox contentBox = new VBox(20);
         contentBox.setPadding(new Insets(20));
         contentBox.setStyle("-fx-background-color: #ffffe0;");
 
-        playersBox = new VBox(40);
-        playersBox.setPrefHeight(450);
+        playersBox = new VBox(20);
         playersBox.setAlignment(Pos.TOP_LEFT);
         VBox.setVgrow(playersBox, Priority.ALWAYS);
 
         errorLabel = new Label();
-        errorLabel.setStyle("-fx-text-fill: red;");
+        errorLabel.styleProperty().bind(root.widthProperty().multiply(0.03).asString("-fx-font-size: %fpx; -fx-text-fill: red"));
 
         Button addButton = new Button("Add +");
-        addButton.setStyle("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
+        addButton.styleProperty().bind(root.widthProperty().multiply(0.03).asString("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: %fpx; -fx-border-radius: 5px"));
         addButton.setOnAction(e -> addPlayer());
 
         Button saveButton = new Button("Save players?");
-        saveButton.setStyle("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
+        saveButton.styleProperty().bind(root.widthProperty().multiply(0.03).asString("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: %fpx; -fx-border-radius: 5px"));
         saveButton.setOnAction(e -> {
             if (validatePlayers()) {
                 CSVUtils.writePlayersToCSV("players.csv", controller.getPlayers());
@@ -69,7 +77,7 @@ public class EditSnLPlayersView extends Application {
         });
 
         Button playButton = new Button("Play!");
-        playButton.setStyle("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
+        playButton.styleProperty().bind(root.widthProperty().multiply(0.03).asString("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: %fpx; -fx-border-radius: 5px"));
         playButton.setOnAction(e -> {
             if (validatePlayers()) {
                 goToLevelView(primaryStage);
@@ -82,10 +90,14 @@ public class EditSnLPlayersView extends Application {
         contentBox.getChildren().addAll(playersBox, errorLabel, buttonBox);
         root.setCenter(new VBox(titleBox, contentBox));
 
-        Scene scene = new Scene(root, 600, 550);
+        Scene scene = new Scene(root, INITIAL_WIDTH, INITIAL_HEIGHT);
+        root.prefWidthProperty().bind(scene.widthProperty());
+        root.prefHeightProperty().bind(scene.heightProperty());
+
         primaryStage.setTitle("Edit Players");
         primaryStage.setScene(scene);
-        primaryStage.setMaximized(true);
+        primaryStage.setMinWidth(400);
+        primaryStage.setMinHeight(300);
         primaryStage.show();
 
         addPlayer();
@@ -115,14 +127,17 @@ public class EditSnLPlayersView extends Application {
     private HBox createPlayerRow(Player player) {
         TextField nameField = new TextField(player.getName());
         nameField.textProperty().addListener((obs, oldVal, newVal) -> player.setName(newVal));
-        nameField.setPrefWidth(150);
-        nameField.setStyle("-fx-background-color: transparent; -fx-font-size: 16px; -fx-font-weight: bold;");
+        nameField.prefWidthProperty().bind(playersBox.widthProperty().multiply(0.25));
+        nameField.styleProperty().bind(playersBox.widthProperty().multiply(0.03).asString("-fx-background-color: transparent; -fx-font-size: %fpx; -fx-font-weight: bold"));
 
         HBox colorBox = new HBox(15);
         colorBox.setPadding(new Insets(7));
         ArrayList<Rectangle> colorRects = new ArrayList<>();
         for (String color : colors) {
-            Rectangle colorRect = new Rectangle(30, 30, Color.web(color.toLowerCase()));
+            Rectangle colorRect = new Rectangle();
+            colorRect.widthProperty().bind(playersBox.widthProperty().multiply(0.05));
+            colorRect.heightProperty().bind(playersBox.widthProperty().multiply(0.05));
+            colorRect.setFill(Color.web(color.toLowerCase()));
             colorRects.add(colorRect);
             colorRect.setOpacity(player.getColor() != null && player.getColor().equals(color) ? 0.5 : 1.0);
             colorRect.setOnMouseClicked(e -> {
@@ -133,7 +148,7 @@ public class EditSnLPlayersView extends Application {
         }
 
         Button removeButton = new Button("-");
-        removeButton.setStyle("-fx-background-color: transparent; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 1px; -fx-font-weight: bold; -fx-font-size: 16px;");
+        removeButton.styleProperty().bind(playersBox.widthProperty().multiply(0.03).asString("-fx-background-color: transparent; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 1px; -fx-font-weight: bold; -fx-font-size: %fpx"));
         removeButton.setOnAction(e -> controller.removePlayer(player));
 
         HBox row = new HBox(15, nameField, colorBox, removeButton);

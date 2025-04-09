@@ -2,19 +2,29 @@ package edu.ntnu.controller;
 
 import edu.ntnu.model.BoardGame;
 import edu.ntnu.model.Player;
-import edu.ntnu.model.Tile;
 import edu.ntnu.view.GameView;
 
+/**
+ * Class for handling game logic and mediating the interactions between BoardGame and GameView
+ */
 public class BoardGameController {
   private BoardGame model;
   private GameView view;
 
+  /**
+   * Constructs a BoardGameController with the specified model and view.
+   * @param model the BoardGame model to control
+   * @param view the GameView to update and display information
+   */
   public BoardGameController(BoardGame model, GameView view) {
     this.model = model;
     this.view = view;
-    model.addObserver(new BoardGameObserverImpl());
+    model.addObserver(new BoardGameObserverImplementation(view));
   }
 
+  /**
+   * Method for executing game turn for all players.
+   */
   public void playTurn() {
     for (Player player : model.getPlayers()) {
       if (player.isSkipOneRound()) {
@@ -26,26 +36,12 @@ public class BoardGameController {
       view.showMessage(player.getName() + " rolled " + roll);
       player.move(roll, model.getBoard());
       model.notifyPlayerMove(player);
-      view.updatePlayerPosition(player);
 
       if (player.hasWon()) {
-        view.showMessage(player.getName() + " wins!");
         model.setGameOver(true);
         model.notifyPlayerWon(player);
         break;
       }
-    }
-  }
-
-  private class BoardGameObserverImpl implements edu.ntnu.model.BoardGameObserver {
-    @Override
-    public void onPlayerMove(Player player, Tile newPosition) {
-      view.updatePlayerPosition(player);
-    }
-
-    @Override
-    public void onPlayerWin(Player winner) {
-      view.showMessage(winner.getName() + " has won the game!");
     }
   }
 }

@@ -14,28 +14,36 @@ public class BoardGameFactory {
     }
 
     private static BoardGame createEasyBoardGame(int numPlayers) {
-        Board board = new Board(90);
-        board.getTile(4).setAction(new LadderAction(14));
-        board.getTile(8).setAction(new LadderAction(30));
-        board.getTile(50).setAction(new SnakeAction(10));
-        board.getTile(80).setAction(new SnakeAction(20));
+        Board board = new Board(36);
+        board.getTile(14).setAction(new SnakeAction(2));
+        board.getTile(30).setAction(new SnakeAction(19));
+
+        board.getTile(6).setAction(new LadderAction(8));
+        board.getTile(27).setAction(new LadderAction(33));
+
+        board.getTile(26).setAction(new SkipOneRoundAction());
+
         return new BoardGame(board, numPlayers, 1); // Én terning for Easy
     }
 
     private static BoardGame createHardBoardGame(int numPlayers) {
         Board board = new Board(90);
-        board.getTile(6).setAction(new LadderAction(16));
-        board.getTile(34).setAction(new LadderAction(46));
-        board.getTile(79).setAction(new LadderAction(83));
+
         board.getTile(22).setAction(new SnakeAction(2));
         board.getTile(27).setAction(new SnakeAction(9));
         board.getTile(58).setAction(new SnakeAction(36));
         board.getTile(70).setAction(new SnakeAction(52));
         board.getTile(86).setAction(new SnakeAction(64));
+
+        board.getTile(6).setAction(new LadderAction(16));
+        board.getTile(34).setAction(new LadderAction(46));
+        board.getTile(79).setAction(new LadderAction(83));
+
         board.getTile(38).setAction(new BackToStartAction(1));
         board.getTile(67).setAction(new BackToStartAction(1));
-        board.getTile(32).setAction(new SkipOneRoundAction(32));
-        board.getTile(41).setAction(new SkipOneRoundAction(41));
+
+        board.getTile(32).setAction(new SkipOneRoundAction());
+        board.getTile(41).setAction(new SkipOneRoundAction());
         return new BoardGame(board, numPlayers, 2); // To terninger for Hard
     }
 
