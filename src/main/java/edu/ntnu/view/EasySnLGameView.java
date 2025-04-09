@@ -1,0 +1,77 @@
+package edu.ntnu.view;
+
+import edu.ntnu.controller.BoardGameController;
+import edu.ntnu.model.BoardGame;
+import edu.ntnu.model.Die;
+import edu.ntnu.model.Player;
+import edu.ntnu.view.components.DiceImage;
+import javafx.application.Application;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+
+public class EasySnLGameView extends Application implements GameView {
+  private BoardGame model;
+  private BoardGameController controller;
+  private DiceImage diceImage; // Kun én terning
+
+  public EasySnLGameView() {
+    // Standardkonstruktør for JavaFX
+  }
+
+  public EasySnLGameView(BoardGame model) {
+    this.model = model;
+  }
+
+  @Override
+  public void start(Stage primaryStage) {
+    if (model == null) {
+      throw new IllegalStateException("BoardGame model must be provided.");
+    }
+    this.controller = new BoardGameController(model, this);
+
+    ImageView boardImageView = new ImageView(new Image(getClass().getResourceAsStream("/images/snakes-and-ladders.png")));
+    boardImageView.setFitWidth(600);
+    boardImageView.setFitHeight(600);
+
+    Die die = new Die();
+    diceImage = new DiceImage(die);
+
+    Button rollButton = new Button("ROLL!");
+    rollButton.setStyle("-fx-background-color: #ff9999; -fx-text-fill: black; -fx-font-weight: bold; -fx-font-size: 18px; -fx-border-radius: 5px;");
+    rollButton.setOnAction(event -> {
+      die.roll();
+      diceImage.updateDiceFace();
+      controller.playTurn();
+    });
+
+    HBox diceBox = new HBox(20, diceImage); // Kun én terning i UI
+    diceBox.setAlignment(Pos.CENTER);
+    VBox bottomBox = new VBox(20, diceBox, rollButton);
+    bottomBox.setAlignment(Pos.CENTER);
+
+    VBox root = new VBox(20, boardImageView, bottomBox);
+    root.setStyle("-fx-alignment: center; -fx-padding: 20px;");
+
+    Scene scene = new Scene(root, 650, 700);
+    primaryStage.setTitle("Snakes and Ladders - Easy");
+    primaryStage.setScene(scene);
+    primaryStage.show();
+  }
+
+  @Override
+  public void showMessage(String message) {
+    System.out.println(message);
+  }
+
+  @Override
+  public void updatePlayerPosition(Player player) {
+    System.out.println(player.getName() + " moved to tile " + player.getCurrentTile().getPosition());
+  }
+}
