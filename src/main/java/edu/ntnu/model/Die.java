@@ -1,4 +1,4 @@
-package edu.ntnu.game;
+package edu.ntnu.model;
 
 import java.util.Random;
 
@@ -14,6 +14,7 @@ public class Die {
    */
   public Die() {
     this.random = new Random();
+    this.lastRolledValue = 1; //Setter default verdi lik 1
   }
 
   /**

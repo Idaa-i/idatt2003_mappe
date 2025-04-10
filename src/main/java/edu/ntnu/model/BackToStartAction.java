@@ -1,4 +1,4 @@
-package edu.ntnu.board;
+package edu.ntnu.model;
 
 public class BackToStartAction implements TileAction{
   private int destination;
@@ -8,7 +8,6 @@ public class BackToStartAction implements TileAction{
   }
 
   public int execute(int position) {
-    System.out.println("Moving back to start!");
     return destination;
   }
 }
