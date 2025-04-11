@@ -30,14 +30,14 @@ public class BoardGameController {
     Player currentPlayer = model.getPlayers().get(currentPlayerIndex);
 
     if (currentPlayer.isSkipOneRound()) {
-      view.showMessage(currentPlayer.getName() + " skips this round");
+      view.showActionMessage(currentPlayer.getName() + " skips this round");
       currentPlayer.setSkipOneRound(false);
       advanceToNextPlayer();
       return;
     }
 
-    view.showMessage(currentPlayer.getName() + " rolled " + roll);
-    currentPlayer.move(roll, model.getBoard());
+    String moveMessage = currentPlayer.move(roll, model.getBoard());
+    view.showActionMessage(moveMessage);
     model.notifyPlayerMove(currentPlayer);
 
     if (currentPlayer.hasWon()) {
@@ -48,7 +48,6 @@ public class BoardGameController {
       advanceToNextPlayer();
     }
   }
-
 
   private void advanceToNextPlayer() {
     currentPlayerIndex = (currentPlayerIndex + 1) % model.getPlayers().size();

@@ -49,34 +49,54 @@ public class Player {
         this.board = board;
     }
 
-    public void move(int roll, Board board) {
+    public String move(int roll, Board board) {
+        this.board = board; // Ensure board is set
         if (skipOneRound) {
             skipOneRound = false;
-            return;
+            return name + " skips this round.";
         }
         if (currentTile == null) {
-            return;
+            return name + " cannot move: no current tile.";
         }
+        StringBuilder message = new StringBuilder(name + " rolled " + roll);
         int boardSize = board.getSize();
         int newPosition = currentTile.getPosition() + roll;
 
+        // Handle moving beyond board size
         if (newPosition > boardSize) {
             int excess = newPosition - boardSize;
             newPosition = boardSize - excess;
         }
 
         Tile newTile = board.getTile(newPosition);
-        if (newTile != null) {
-            TileAction action = newTile.getAction();
-            if (action != null) {
-                int updatedPosition = action.execute(newPosition);
-                if (action instanceof SkipOneRoundAction) {
-                    skipOneRound = true;
-                }
-                newTile = board.getTile(updatedPosition);
-            }
-            currentTile = newTile;
+        if (newTile == null) {
+            message.append(", moving to invalid tile");
+            return message.toString();
         }
+
+        TileAction action = newTile.getAction();
+        int finalPosition = newPosition;
+
+        if (action != null) {
+            finalPosition = action.execute(newPosition);
+            if (action instanceof LadderAction) {
+                message.append("\nLanded on ladder up");
+            } else if (action instanceof SnakeAction) {
+                message.append("\nLanded on ladder down");
+            } else if (action instanceof SkipOneRoundAction) {
+                message.append("\nLanded on skip-tile");
+                skipOneRound = true;
+                currentTile = newTile;
+                return message.toString();
+            } else if (action instanceof BackToStartAction) {
+                message.append("\nLanded on back-to-start-tile");
+            }
+            newTile = board.getTile(finalPosition);
+        }
+
+        message.append("\nMoving to tile ").append(finalPosition);
+        currentTile = newTile;
+        return message.toString();
     }
 
     public boolean hasWon() {
