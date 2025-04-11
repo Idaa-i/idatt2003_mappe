@@ -26,6 +26,7 @@ public class HardSnLGameView extends Application implements GameView {
   private DiceImage diceImage1;
   private DiceImage diceImage2;
   private Label winnerLabel;
+  private Label actionLabel;
   private Pane boardPane;
   private Map<Player, PlayerToken> playerTokens;
 
@@ -72,7 +73,11 @@ public class HardSnLGameView extends Application implements GameView {
     winnerLabel.setStyle("-fx-font-size: 24px; -fx-font-weight: bold; -fx-text-fill: green;");
     winnerLabel.setAlignment(Pos.CENTER);
 
-    VBox bottomBox = new VBox(20, diceBox, rollButton, winnerLabel);
+    actionLabel = new Label("");
+    actionLabel.setStyle("-fx-font-size: 16px; -fx-text-fill: black;");
+    actionLabel.setAlignment(Pos.CENTER);
+
+    VBox bottomBox = new VBox(20, diceBox, rollButton, actionLabel, winnerLabel);
     bottomBox.setAlignment(Pos.CENTER);
 
     VBox root = new VBox(20, boardPane, bottomBox);
@@ -108,8 +113,8 @@ public class HardSnLGameView extends Application implements GameView {
   }
 
   @Override
-  public void showMessage(String message) {
-    System.out.println(message);
+  public void showActionMessage(String message) {
+    actionLabel.setText(message);
   }
 
   @Override
@@ -125,12 +130,11 @@ public class HardSnLGameView extends Application implements GameView {
       token.setCenterX(coordinates[0] + offset);
       token.setCenterY(coordinates[1]);
     }
-    System.out.println(player.getName() + " moved to tile " + player.getCurrentTile().getPosition());
   }
 
   @Override
   public void announceWinner(Player winner) {
-    winnerLabel.setText(winner.getName() + " has won the game!");
+    winnerLabel.setText(winner.getName() + " won the game!");
     VBox bottomBox = (VBox) winnerLabel.getParent();
     Button rollButton = (Button) bottomBox.getChildren().get(1);
     rollButton.setDisable(true);
