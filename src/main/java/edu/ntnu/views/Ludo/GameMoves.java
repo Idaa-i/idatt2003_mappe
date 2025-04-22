@@ -1,5 +1,6 @@
 package edu.ntnu.views.Ludo;
 
+import edu.ntnu.game.Die;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
@@ -15,6 +16,7 @@ public class GameMoves {
     private int current_player, dice;
     private int flag = 0, roll, kill = 0;
     private boolean turnSkipped = false;
+    private Die die = new Die();
 
     public GameMoves() {
         la = new Layout(80, 50);
@@ -68,7 +70,7 @@ public class GameMoves {
     public void handleKeyPress(KeyEvent e) {
         if (e.getCode().toString().equals("ENTER") && flag == 0) {
             roll++;
-            dice = 1 + (int) (Math.random() * 6);
+            dice = die.roll();
             flag = checkForPlayableMove();
 
             // If no moves are possible
