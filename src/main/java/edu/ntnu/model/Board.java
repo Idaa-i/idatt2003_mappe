@@ -1,4 +1,4 @@
-package edu.ntnu.board;
+package edu.ntnu.model;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,7 +8,6 @@ import java.util.Map;
  */
 public class Board {
   private Map<Integer, Tile> tiles;
-  private Map<Integer, TileAction> actions;
 
   /**
    * Konstruktor for Board-klassen.
@@ -16,7 +15,6 @@ public class Board {
    */
   public Board(int size) {
     this.tiles = new HashMap<>();
-    this.actions = new HashMap<>();
     for (int i = 1; i <= size; i++) {
       tiles.put(i, new Tile(i));
     }
@@ -31,7 +29,6 @@ public class Board {
   public Tile getStartTile() {
     return tiles.get(1);
   }
-
 
   /**
    * Metode for å legge til felt på brettet.
@@ -52,23 +49,7 @@ public class Board {
     return tiles.get(tileId);
   }
 
-  /**
-   * Metode for å legge til en handling på et spesifikt felt.
-   *
-   * @param action   handlingen som skal legges til
-   * @param position posisjonen til feltet
-   */
-  public void addAction(TileAction action, int position) {
-    actions.put(position, action);
-  }
-
-  /**
-   * Metode for å hente handlingen på et spesifikt felt.
-   *
-   * @param position posisjonen til feltet
-   * @return handlingen på flisen
-   */
-  public TileAction getAction(int position) {
-    return actions.get(position);
+  public int getSize() {
+    return tiles.size();
   }
 }
