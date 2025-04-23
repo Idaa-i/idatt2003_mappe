@@ -233,6 +233,11 @@ public class EditLudoPlayersView extends Application {
     }
 
     private boolean validatePlayers() {
+        if (players.size() < 2) {
+            errorLabel.setText("At least 2 players are required!");
+            return false;
+        }
+
         HashSet<String> names = new HashSet<>();
         HashSet<String> colors = new HashSet<>();
 
@@ -246,9 +251,11 @@ public class EditLudoPlayersView extends Application {
                 return false;
             }
         }
+
         errorLabel.setText("");
         return true;
     }
+
 
     private void savePlayersToFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("ludo_players.csv"))) {
