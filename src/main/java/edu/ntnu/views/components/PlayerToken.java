@@ -1,4 +1,4 @@
-package edu.ntnu.view.components;
+package edu.ntnu.views.components;
 
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;

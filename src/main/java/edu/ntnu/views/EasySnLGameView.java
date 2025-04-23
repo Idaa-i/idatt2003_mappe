@@ -1,11 +1,11 @@
-package edu.ntnu.view;
+package edu.ntnu.views;
 
 import edu.ntnu.controller.BoardGameController;
 import edu.ntnu.model.BoardGame;
 import edu.ntnu.model.Die;
 import edu.ntnu.model.Player;
-import edu.ntnu.view.components.DiceImage;
-import edu.ntnu.view.components.PlayerToken;
+import edu.ntnu.views.components.DiceImage;
+import edu.ntnu.views.components.PlayerToken;
 import java.util.HashMap;
 import java.util.Map;
 import javafx.application.Application;

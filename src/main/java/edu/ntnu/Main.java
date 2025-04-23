@@ -1,6 +1,6 @@
 package edu.ntnu;
 
-import edu.ntnu.view.WelcomePageView;
+import edu.ntnu.views.WelcomePageView;
 import javafx.application.Application;
 import javafx.stage.Stage;
 

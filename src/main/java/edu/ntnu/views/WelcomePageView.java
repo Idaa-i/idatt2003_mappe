@@ -1,4 +1,4 @@
-package edu.ntnu.view;
+package edu.ntnu.views;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;

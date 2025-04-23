@@ -1,40 +1,38 @@
-package edu.ntnu.model;
+package edu.ntnu.game;
+
+import edu.ntnu.CSVExample;
+import edu.ntnu.board.SkipOneRoundAction;
+import edu.ntnu.board.Tile;
+import edu.ntnu.board.Board;
+import edu.ntnu.board.TileAction;
 
 public class Player {
     private String name;
     private String color;
     private Tile currentTile;
     private boolean skipOneRound;
-    private Board board;
 
-    public Player(String name, Tile startTile) {
+    public Player(String name, String color, Tile startTile){
         this.name = name;
+        this.color = color;
         this.currentTile = startTile;
         this.skipOneRound = false;
+        CSVExample.addPlayer(this);
     }
+
 
     public String getName() {
         return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
     }
 
     public String getColor() {
         return color;
     }
 
-    public void setColor(String color) {
-        this.color = color;
-    }
+    public void setColor(String color) { this.color = color; }
 
     public Tile getCurrentTile() {
         return currentTile;
-    }
-
-    public void setCurrentTile(Tile currentTile) {
-        this.currentTile = currentTile;
     }
 
     public boolean isSkipOneRound() {
@@ -45,61 +43,45 @@ public class Player {
         this.skipOneRound = skipOneRound;
     }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
-
-    public String move(int roll, Board board) {
-        this.board = board; // Ensure board is set
-        if (skipOneRound) {
+    public void move(int roll, Board board){
+        if (skipOneRound){
+            System.out.println(name + " skips one round!");
             skipOneRound = false;
-            return name + " skips this round.";
+            return;
         }
-        if (currentTile == null) {
-            return name + " cannot move: no current tile.";
+        if(currentTile == null){
+            System.err.println(name + "has an invalid tile");
+            return;
         }
-        StringBuilder message = new StringBuilder(name + " rolled " + roll);
-        int boardSize = board.getSize();
         int newPosition = currentTile.getPosition() + roll;
 
-        // Handle moving beyond board size
-        if (newPosition > boardSize) {
-            int excess = newPosition - boardSize;
-            newPosition = boardSize - excess;
+        // If player lands over 90, go the difference backwards
+        if (newPosition > 90) {
+            int excess = newPosition - 90;
+            newPosition = 90 - excess; // Go backwards
         }
 
         Tile newTile = board.getTile(newPosition);
+
         if (newTile == null) {
-            message.append(", moving to invalid tile");
-            return message.toString();
+            System.err.println(name + "landed on an invalid tile: " + newPosition);
+            return;
         }
 
-        TileAction action = newTile.getAction();
-        int finalPosition = newPosition;
-
+        TileAction action = board.getAction(newPosition);
         if (action != null) {
-            finalPosition = action.execute(newPosition);
-            if (action instanceof LadderAction) {
-                message.append("\nLanded on ladder up");
-            } else if (action instanceof SnakeAction) {
-                message.append("\nLanded on ladder down");
-            } else if (action instanceof SkipOneRoundAction) {
-                message.append("\nLanded on skip-tile");
+            newPosition = action.execute(newPosition);
+            newTile = board.getTile(newPosition);
+            if (action instanceof SkipOneRoundAction) {
                 skipOneRound = true;
-                currentTile = newTile;
-                return message.toString();
-            } else if (action instanceof BackToStartAction) {
-                message.append("\nLanded on back-to-start-tile");
             }
-            newTile = board.getTile(finalPosition);
         }
 
-        message.append("\nMoving to tile ").append(finalPosition);
         currentTile = newTile;
-        return message.toString();
+        System.out.println(name + " moved to tile " + currentTile.getPosition());
     }
 
-    public boolean hasWon() {
-        return currentTile != null && board != null && currentTile.getPosition() == board.getSize();
+    public Boolean hasWon(){
+        return currentTile.getPosition() == 90;
     }
 }

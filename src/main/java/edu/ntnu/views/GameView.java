@@ -1,4 +1,4 @@
-package edu.ntnu.view;
+package edu.ntnu.views;
 
 import edu.ntnu.model.Player;
 

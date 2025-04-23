@@ -3,9 +3,9 @@ package edu.ntnu.controller;
 import edu.ntnu.model.Player;
 import edu.ntnu.utils.BoardGameFactory;
 import edu.ntnu.model.BoardGame;
-import edu.ntnu.view.SnakesAndLaddersLevelView;
-import edu.ntnu.view.HardSnLGameView;
-import edu.ntnu.view.EasySnLGameView;
+import edu.ntnu.views.SnakesAndLaddersLevelView;
+import edu.ntnu.views.HardSnLGameView;
+import edu.ntnu.views.EasySnLGameView;
 import java.util.List;
 
 public class LevelController {

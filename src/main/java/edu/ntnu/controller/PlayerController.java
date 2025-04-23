@@ -1,7 +1,7 @@
 package edu.ntnu.controller;
 
 import edu.ntnu.model.Player;
-import edu.ntnu.view.EditSnLPlayersView;
+import edu.ntnu.views.EditSnLPlayersView;
 
 import java.util.ArrayList;
 import java.util.List;
