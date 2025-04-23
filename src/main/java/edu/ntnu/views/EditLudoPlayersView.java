@@ -265,8 +265,24 @@ public class EditLudoPlayersView extends Application {
 
     private void goToLevelView(Stage primaryStage) {
         System.out.println("Going to Ludo game view...");
-        // Navigate to Ludo game view
+
+        ArrayList<edu.ntnu.game.Player> logicPlayers = new ArrayList<>();
+        edu.ntnu.board.Tile startTile = new edu.ntnu.board.Tile(0); // Dummy tile for compatibility
+
+        for (Player p : players) {
+            edu.ntnu.game.Player logicPlayer = new edu.ntnu.game.Player(p.getName(), p.getColor(), startTile);
+            logicPlayers.add(logicPlayer);
+        }
+
+        try {
+            edu.ntnu.views.Ludo.GameScreen gameScreen = new edu.ntnu.views.Ludo.GameScreen();
+            edu.ntnu.views.Ludo.GameScreen.setPlayers(logicPlayers);
+            gameScreen.start(primaryStage);  // ✅ this reuses the current stage
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
+
 
     private class Player {
         private String name;

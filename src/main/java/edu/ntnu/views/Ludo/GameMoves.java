@@ -1,11 +1,14 @@
 package edu.ntnu.views.Ludo;
 
 import edu.ntnu.game.Die;
+import edu.ntnu.game.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+
+import java.util.ArrayList;
 
 
 public class GameMoves {
@@ -18,9 +21,9 @@ public class GameMoves {
     private boolean turnSkipped = false;
     private Die die = new Die();
 
-    public GameMoves() {
-        la = new Layout(80, 50);
-        p = new Build_Player(la.height, la.width);
+    public GameMoves(ArrayList<Player> logicPlayers) {
+        la = new Layout(80, 50, logicPlayers);
+        p = new Build_Player(logicPlayers, la.height, la.width);  // pass logic players here
         dice = 0;
         flag = 0;
         roll = 0;
@@ -30,55 +33,42 @@ public class GameMoves {
 
     // Method to handle drawing logic
     public void draw(GraphicsContext gc) {
-        // Draw the layout (board)
         la.draw(gc);
         p.draw(gc);
 
-        // Handle winning condition
-        if (p.players[current_player].coin == 4) {
-            gc.setFill(javafx.scene.paint.Color.WHITE);
+        if (p.players[current_player] != null && p.players[current_player].coin == 4) {
+            gc.setFill(Color.WHITE);
             gc.fillRect(590, 100, 380, 130);
             gc.setFill(getPlayerColor(current_player));
             gc.setFont(new Font("serif", 40));
-            gc.fillText("Player " + (current_player + 1) + " wins.", 600, 150);
+            gc.fillText(p.players[current_player].getName(), 600, 150);
             gc.fillText("Congratulations.", 600, 200);
             resetGame();
         } else if (dice != 0) {
-            gc.setFill(javafx.scene.paint.Color.WHITE);
+            gc.setFill(Color.WHITE);
             gc.fillRect(590, 100, 380, 130);
             gc.setFill(getPlayerColor(current_player));
             gc.setFont(new Font("serif", 40));
-            gc.fillText("Player " + (current_player + 1), 600, 150);
+            gc.fillText(p.players[current_player].getName(), 600, 150);
             gc.fillText("Number on dice is " + dice, 600, 200);
         }
 
-        // Switch to next player if applicable
         if (flag == 0 && dice != 0 && dice != 6 && kill == 0) {
             if (turnSkipped || (dice != 6 && roll >= 1)) {
-                // Reset turn skipping flag
                 turnSkipped = false;
-                // Switch to next player
-                current_player = (current_player + 1) % 4;
-                // Reset dice
+                current_player = (current_player + 1) % p.players.length;
                 dice = 0;
                 roll = 0;
             }
         }
     }
 
-    // Key pressed event handler (roll dice)
     public void handleKeyPress(KeyEvent e) {
         if (e.getCode().toString().equals("ENTER") && flag == 0) {
             roll++;
             dice = die.roll();
             flag = checkForPlayableMove();
-
-            // If no moves are possible
-            if (flag == 0) {
-                turnSkipped = true;
-            } else {
-                turnSkipped = false;
-            }
+            turnSkipped = (flag == 0);
         }
     }
 
@@ -152,14 +142,14 @@ public class GameMoves {
     }
 
     // Helper method to get player color
-    private javafx.scene.paint.Color getPlayerColor(int player) {
-        switch (player) {
-            case 0: return Color.web("E76264");  // Salmon/Red
-            case 1: return Color.web("719063");  // Green
-            case 2: return Color.web("E79A61");  // Orange
-            case 3: return Color.web("9D61E6");  // Purple
-            default: return Color.BLACK;
-        }
+    private Color getPlayerColor(int player) {
+        return switch (player) {
+            case 0 -> Color.web("E76264");
+            case 1 -> Color.web("719063");
+            case 2 -> Color.web("E79A61");
+            case 3 -> Color.web("9D61E6");
+            default -> Color.BLACK;
+        };
     }
 
     // Helper method to check if a move is possible
@@ -227,11 +217,9 @@ public class GameMoves {
         return 0;
     }
 
-    // Reset the game after a player wins
     private void resetGame() {
         current_player = 0;
-        la = new Layout(80, 50);
-        p = new Build_Player(la.height, la.width);
+        la = new Layout(80, 50, p.getLogicPlayers());
         dice = 0;
         flag = 0;
         roll = 0;

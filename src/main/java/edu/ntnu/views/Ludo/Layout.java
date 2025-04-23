@@ -1,24 +1,36 @@
 package edu.ntnu.views.Ludo;
 
+import edu.ntnu.game.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class Layout {
 
     int x, y, width, height;
+    ArrayList<edu.ntnu.game.Player> logicPlayers;
 
     private static final Color COLOR_1 = Color.web("719063");  // Green-like color
     private static final Color COLOR_2 = Color.web("9D61E6");  // Purple-like color
     private static final Color COLOR_3 = Color.web("E79A61");  // Orange-like color
     private static final Color COLOR_4 = Color.web("E76264");  // Salmon/Red-like color
 
+    private final HashMap<String, int[]> colorToNamePosition = new HashMap<>() {{
+        put("#E76264", new int[]{90, 35});   // Red = Player 1 (top-left)
+        put("#719063", new int[]{370, 35});  // Green = Player 2 (top-right)
+        put("#E79A61", new int[]{370, 540}); // Orange = Player 3 (bottom-right)
+        put("#9D61E6", new int[]{90, 540});  // Purple = Player 4 (bottom-left)
+    }};
 
-    public Layout(int xi, int yi) {
+    public Layout(int xi, int yi, ArrayList<Player> logicPlayers) {
         x = xi;
         y = yi;
         width = 30;
         height = 30;
+        this.logicPlayers = logicPlayers;
     }
 
     public void draw(GraphicsContext gc) {
@@ -146,10 +158,17 @@ public class Layout {
 
         // Drawing text
         gc.setFont(Font.font("serif", 40));
-        gc.fillText("Player 1", 90, 35);
-        gc.fillText("Player 2", 370, 35);
-        gc.fillText("Player 4", 90, 540);
-        gc.fillText("Player 3", 370, 540);
+        if (logicPlayers != null) {
+            for (Player p : logicPlayers) {
+                int[] pos = colorToNamePosition.get(p.getColor());
+                if (pos != null) {
+                    gc.setFill(Color.web(p.getColor()));
+                    gc.fillText(p.getName(), pos[0], pos[1]);
+                }
+            }
+        }
+
+        gc.setFill(Color.BLACK);
         gc.fillText("Instruction:", 550, 300);
         gc.fillText("1.Press enter to roll dice.", 550, 350);
         gc.fillText("2.Click on coin to move.", 550, 400);

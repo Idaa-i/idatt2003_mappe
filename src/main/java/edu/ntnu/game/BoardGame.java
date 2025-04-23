@@ -38,7 +38,7 @@ public class BoardGame {
         board.addAction(new SkipOneRoundAction(41), 41);
 
         for (int i = 1; i <= numPlayers; i++) {
-            players.add(new Player("Player " + i, board.getStartTile()));
+            players.add(new Player("Player " + i, "#E76264", board.getStartTile()));
         }
     }
 

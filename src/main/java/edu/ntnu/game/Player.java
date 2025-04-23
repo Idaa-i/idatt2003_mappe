@@ -12,13 +12,14 @@ public class Player {
     private Tile currentTile;
     private boolean skipOneRound;
 
-    public Player(String name, Tile startTile){
+    public Player(String name, String color, Tile startTile){
         this.name = name;
         this.color = color;
-        CSVExample.addPlayer(this);
         this.currentTile = startTile;
         this.skipOneRound = false;
+        CSVExample.addPlayer(this);
     }
+
 
     public String getName() {
         return name;
@@ -27,6 +28,8 @@ public class Player {
     public String getColor() {
         return color;
     }
+
+    public void setColor(String color) { this.color = color; }
 
     public Tile getCurrentTile() {
         return currentTile;
