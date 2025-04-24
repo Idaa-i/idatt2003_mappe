@@ -1,7 +1,7 @@
 package edu.ntnu.views.Ludo;
 
-import edu.ntnu.board.Tile;
-import edu.ntnu.game.Player;
+import edu.ntnu.model.Tile;
+import edu.ntnu.model.Player;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.scene.canvas.Canvas;

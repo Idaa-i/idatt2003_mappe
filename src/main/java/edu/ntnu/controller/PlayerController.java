@@ -16,7 +16,7 @@ public class PlayerController {
   }
 
   public void addPlayer(String name, String color, edu.ntnu.model.Tile startTile) {
-    Player player = new Player(name, startTile);
+    Player player = new Player(name, color, startTile);
     player.setColor(color);
     players.add(player);
     view.updatePlayerList(players);

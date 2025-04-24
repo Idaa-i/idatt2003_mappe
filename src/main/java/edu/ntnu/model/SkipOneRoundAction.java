@@ -10,4 +10,3 @@ public class SkipOneRoundAction implements TileAction{
     return position;
   }
 }
-

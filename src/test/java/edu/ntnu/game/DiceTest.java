@@ -29,8 +29,8 @@ class DiceTest {
   @Test
   void testGetDieInvalid() {
     IllegalArgumentException exception = assertThrows(
-        IllegalArgumentException.class,
-        () -> dice.getDie(10));
-        assertEquals("Invalid die number.", exception.getMessage());
+            IllegalArgumentException.class,
+            () -> dice.getDie(10));
+    assertEquals("Invalid die number.", exception.getMessage());
   }
 }

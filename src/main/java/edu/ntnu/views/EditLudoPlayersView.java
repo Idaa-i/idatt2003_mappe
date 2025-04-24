@@ -1,5 +1,9 @@
 package edu.ntnu.views;
 
+import edu.ntnu.model.Tile;
+import edu.ntnu.views.Ludo.GameScreen;
+import edu.ntnu.views.Ludo.PlayerWrapper;
+import edu.ntnu.model.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -104,10 +108,15 @@ public class EditLudoPlayersView extends Application {
         playButton.minHeightProperty().bind(primaryStage.heightProperty().multiply(0.05)); // 5% of window height
 
         playButton.setOnAction(e -> {
-            if (validatePlayers()) {
-                goToLevelView(primaryStage);
+            try {
+                GameScreen.setPlayers(players);
+                new GameScreen().start(primaryStage);
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
         });
+
+
 
         HBox buttonBox = new HBox(10, addButton, saveButton, playButton);
         buttonBox.setAlignment(Pos.BOTTOM_LEFT);
@@ -138,7 +147,7 @@ public class EditLudoPlayersView extends Application {
             return;
         }
 
-        Player newPlayer = new Player("Player" + (players.size() + 1));
+        Player newPlayer = new Player("Player" + (players.size() + 1), colors[players.size()], new Tile(0));
         players.add(newPlayer);
         HBox playerRow = createPlayerRow(newPlayer);
         playersBox.getChildren().add(playerRow);
@@ -233,11 +242,6 @@ public class EditLudoPlayersView extends Application {
     }
 
     private boolean validatePlayers() {
-        if (players.size() < 2) {
-            errorLabel.setText("At least 2 players are required!");
-            return false;
-        }
-
         HashSet<String> names = new HashSet<>();
         HashSet<String> colors = new HashSet<>();
 
@@ -251,11 +255,9 @@ public class EditLudoPlayersView extends Application {
                 return false;
             }
         }
-
         errorLabel.setText("");
         return true;
     }
-
 
     private void savePlayersToFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("ludo_players.csv"))) {
@@ -272,48 +274,7 @@ public class EditLudoPlayersView extends Application {
 
     private void goToLevelView(Stage primaryStage) {
         System.out.println("Going to Ludo game view...");
-
-        ArrayList<edu.ntnu.game.Player> logicPlayers = new ArrayList<>();
-        edu.ntnu.board.Tile startTile = new edu.ntnu.board.Tile(0); // Dummy tile for compatibility
-
-        for (Player p : players) {
-            edu.ntnu.game.Player logicPlayer = new edu.ntnu.game.Player(p.getName(), p.getColor(), startTile);
-            logicPlayers.add(logicPlayer);
-        }
-
-        try {
-            edu.ntnu.views.Ludo.GameScreen gameScreen = new edu.ntnu.views.Ludo.GameScreen();
-            edu.ntnu.views.Ludo.GameScreen.setPlayers(logicPlayers);
-            gameScreen.start(primaryStage);  // ✅ this reuses the current stage
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        // Navigate to Ludo game view
     }
 
-
-    private class Player {
-        private String name;
-        private String color;
-
-        public Player(String name) {
-            this.name = name;
-            this.color = "#719063"; // Default color
-        }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public String getColor() {
-            return color;
-        }
-
-        public void setColor(String color) {
-            this.color = color;
-        }
-    }
 }
