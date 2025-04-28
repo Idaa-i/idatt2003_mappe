@@ -27,10 +27,20 @@ public class WelcomePageView extends Application {
         Label chooseLabel = new Label("Choose a game");
         chooseLabel.styleProperty().bind(root.widthProperty().multiply(0.035).asString("-fx-font-size: %fpx"));
 
-        ImageView ludoImage = new ImageView(new Image(getClass().getResource("/images/ludo.png").toExternalForm()));
-        ludoImage.setPreserveRatio(true);
-        ludoImage.fitWidthProperty().bind(root.widthProperty().multiply(0.25));
-        ludoImage.setOnMouseClicked(event -> openEditPlayers(primaryStage, "Ludo"));
+        // Ludo image and click handler (add this in your VBox layout setup)
+        Image ludoImage = new Image("file:src/main/resources/images/ludo.png");
+        ImageView ludoImageView = new ImageView(ludoImage);
+        ludoImageView.fitWidthProperty().bind(root.widthProperty().multiply(0.25));
+        ludoImageView.setPreserveRatio(true);
+        ludoImageView.setOnMouseClicked(event -> {
+            try {
+                new EditLudoPlayersView().start(primaryStage);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
+        root.getChildren().add(ludoImageView);
+
 
         ImageView snakesImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders.png").toExternalForm()));
         snakesImage.setPreserveRatio(true);
@@ -40,7 +50,7 @@ public class WelcomePageView extends Application {
         Label ludoLabel = new Label("Ludo");
         Label snakesLabel = new Label("Snakes & Ladders");
 
-        VBox ludoBox = new VBox(10, ludoLabel, ludoImage);
+        VBox ludoBox = new VBox(10, ludoLabel, ludoImageView);
         ludoBox.setAlignment(Pos.CENTER);
         VBox snakesBox = new VBox(10, snakesLabel, snakesImage);
         snakesBox.setAlignment(Pos.CENTER);

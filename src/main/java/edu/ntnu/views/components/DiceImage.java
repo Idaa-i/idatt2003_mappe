@@ -1,4 +1,4 @@
-package edu.ntnu.views.components;
+package edu.ntnu.view.components;
 
 import edu.ntnu.model.Die;
 import javafx.scene.Group;

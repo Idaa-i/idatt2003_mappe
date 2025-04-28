@@ -2,7 +2,7 @@ package edu.ntnu.views;
 
 import edu.ntnu.controller.LevelController;
 import edu.ntnu.model.Player;
-
+import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
 import javafx.geometry.Insets;

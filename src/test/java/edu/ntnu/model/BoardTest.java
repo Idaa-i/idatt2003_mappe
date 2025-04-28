@@ -40,4 +40,3 @@ class BoardTest {
     assertEquals(1, board.getStartTile().getPosition()); // Test that start tile is correct
   }
 }
-

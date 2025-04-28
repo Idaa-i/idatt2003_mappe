@@ -1,6 +1,6 @@
 package edu.ntnu.views.Ludo;
 
-import edu.ntnu.game.Player;
+import edu.ntnu.model.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;

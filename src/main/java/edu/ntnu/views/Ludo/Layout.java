@@ -1,6 +1,6 @@
 package edu.ntnu.views.Ludo;
 
-import edu.ntnu.game.Player;
+import edu.ntnu.model.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -11,7 +11,7 @@ import java.util.HashMap;
 public class Layout {
 
     int x, y, width, height;
-    ArrayList<edu.ntnu.game.Player> logicPlayers;
+    ArrayList<edu.ntnu.model.Player> logicPlayers;
 
     private static final Color COLOR_1 = Color.web("719063");  // Green-like color
     private static final Color COLOR_2 = Color.web("9D61E6");  // Purple-like color
