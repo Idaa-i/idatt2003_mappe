@@ -168,7 +168,7 @@ public class EditSnLPlayersView extends Application {
 
     private HBox createPlayerRow(Player player) {
         TextField nameField = new TextField(player.getName());
-        nameField.textProperty().addListener((obs, oldVal, newVal) -> player.setName(newVal));
+        nameField.textProperty().addListener((obs, oldVal, newVal) -> controller.updatePlayerName(player, newVal));
         nameField.prefWidthProperty().bind(playersBox.widthProperty().multiply(0.25));
         nameField.styleProperty().bind(playersBox.widthProperty().multiply(0.03).asString("-fx-background-color: transparent; -fx-font-size: %fpx; -fx-font-weight: bold"));
 
@@ -191,7 +191,7 @@ public class EditSnLPlayersView extends Application {
             colorRects.add(colorRect);
             colorRect.setOpacity(player.getColor() != null && player.getColor().equals(color) ? 0.5 : 1.0);
             colorRect.setOnMouseClicked(e -> {
-                player.setColor(color);
+                controller.updatePlayerColor(player, color);
                 updateColorSelection(player, colorRects);
                 playerDropdown.setValue("Custom");
             });
@@ -202,9 +202,9 @@ public class EditSnLPlayersView extends Application {
             if (newVal != null && !newVal.equals("Custom")) {
                 for (String[] csvPlayer : csvPlayers) {
                     if (csvPlayer[0].equals(newVal)) {
-                        nameField.setText(csvPlayer[0]);
+                        controller.updatePlayerName(player, csvPlayer[0]);
                         String color = csvPlayer.length > 1 ? csvPlayer[1] : colors[0];
-                        player.setColor(color);
+                        controller.updatePlayerColor(player, color);
                         updateColorSelection(player, colorRects);
                         break;
                     }

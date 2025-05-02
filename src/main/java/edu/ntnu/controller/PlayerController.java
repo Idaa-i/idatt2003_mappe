@@ -18,13 +18,22 @@ public class PlayerController {
 
   public void addPlayer(String name, String color, Tile startTile) {
     Player player = new Player(name, color, startTile);
-    player.setColor(color);
     players.add(player);
     view.updatePlayerList(players);
   }
 
   public void removePlayer(Player player) {
     players.remove(player);
+    view.updatePlayerList(players);
+  }
+
+  public void updatePlayerName(Player player, String newName) {
+    player.setName(newName);
+    view.updatePlayerList(players);
+  }
+
+  public void updatePlayerColor(Player player, String newColor) {
+    player.setColor(newColor);
     view.updatePlayerList(players);
   }
 
