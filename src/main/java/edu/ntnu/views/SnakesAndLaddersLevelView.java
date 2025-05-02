@@ -2,6 +2,9 @@ package edu.ntnu.views;
 
 import edu.ntnu.controller.LevelController;
 import edu.ntnu.model.Player;
+import edu.ntnu.model.board.BoardGame;
+import edu.ntnu.views.HardSnLGameView;
+import edu.ntnu.views.EasySnLGameView;
 import java.util.ArrayList;
 import java.util.List;
 import javafx.application.Application;
@@ -41,12 +44,20 @@ public class SnakesAndLaddersLevelView extends Application {
     ImageView hardImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders-hard.png").toExternalForm()));
     hardImage.setPreserveRatio(true);
     hardImage.fitWidthProperty().bind(root.widthProperty().multiply(0.25));
-    hardImage.setOnMouseClicked(event -> controller.openGame("Hard", players));
+    hardImage.setOnMouseClicked(event -> {
+      BoardGame game = controller.createGame("Hard", players);
+      HardSnLGameView gameView = new HardSnLGameView(game);
+      gameView.start(stage);
+    });
 
     ImageView easyImage = new ImageView(new Image(getClass().getResource("/images/snakes-and-ladders.png").toExternalForm()));
     easyImage.setPreserveRatio(true);
     easyImage.fitWidthProperty().bind(root.widthProperty().multiply(0.25));
-    easyImage.setOnMouseClicked(event -> controller.openGame("Easy", players));
+    easyImage.setOnMouseClicked(event -> {
+      BoardGame game = controller.createGame("Easy", players);
+      EasySnLGameView gameView = new EasySnLGameView(game);
+      gameView.start(stage);
+    });
 
     Label hardLabel = new Label("Hard");
     Label easyLabel = new Label("Easy");
