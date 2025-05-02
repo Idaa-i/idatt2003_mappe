@@ -2,7 +2,7 @@ package edu.ntnu.controller;
 
 import edu.ntnu.model.Player;
 import edu.ntnu.utils.BoardGameFactory;
-import edu.ntnu.model.BoardGame;
+import edu.ntnu.model.board.BoardGame;
 import edu.ntnu.views.SnakesAndLaddersLevelView;
 import edu.ntnu.views.HardSnLGameView;
 import edu.ntnu.views.EasySnLGameView;

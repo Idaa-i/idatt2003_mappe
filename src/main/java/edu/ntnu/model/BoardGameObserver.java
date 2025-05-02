@@ -1,5 +1,7 @@
 package edu.ntnu.model;
 
+import edu.ntnu.model.board.Tile;
+
 /**
  * This class represents a boardgame observer which handles notifications about state changes in
  * the BoardGame class.

@@ -1,8 +1,7 @@
 package edu.ntnu.views;
 
-import edu.ntnu.model.Tile;
+import edu.ntnu.model.board.Tile;
 import edu.ntnu.views.Ludo.GameScreen;
-import edu.ntnu.views.Ludo.PlayerWrapper;
 import edu.ntnu.model.Player;
 import javafx.application.Application;
 import javafx.geometry.Insets;

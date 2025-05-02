@@ -1,7 +1,8 @@
 package edu.ntnu.controller;
 
-import edu.ntnu.model.BoardGame;
+import edu.ntnu.model.board.BoardGame;
 import edu.ntnu.model.Player;
+import edu.ntnu.views.BoardGameObserverImplementation;
 import edu.ntnu.views.GameView;
 
 /**

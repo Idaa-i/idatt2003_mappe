@@ -1,5 +1,9 @@
 package edu.ntnu.model;
 
+import edu.ntnu.model.actions.*;
+import edu.ntnu.model.board.Board;
+import edu.ntnu.model.board.Tile;
+
 public class Player {
     private String name;
     private String color;

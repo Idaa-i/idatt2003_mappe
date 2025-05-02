@@ -1,8 +1,7 @@
 package edu.ntnu.game;
 
-import edu.ntnu.model.Board;
-import edu.ntnu.model.BoardGame;
-import edu.ntnu.model.Dice;
+import edu.ntnu.model.board.Board;
+import edu.ntnu.model.board.BoardGame;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -1,6 +1,6 @@
-package edu.ntnu.model;
+package edu.ntnu.model.actions;
 
-public class SkipOneRoundAction implements TileAction{
+public class SkipOneRoundAction implements TileAction {
   private int position;
 
   public SkipOneRoundAction() {

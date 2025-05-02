@@ -1,5 +1,7 @@
 package edu.ntnu.model;
 
+import edu.ntnu.model.actions.TileAction;
+import edu.ntnu.model.board.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

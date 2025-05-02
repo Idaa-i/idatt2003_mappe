@@ -2,6 +2,8 @@ package edu.ntnu.model;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+import edu.ntnu.model.board.Board;
+import edu.ntnu.model.board.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

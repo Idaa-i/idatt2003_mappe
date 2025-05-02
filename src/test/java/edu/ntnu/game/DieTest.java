@@ -3,7 +3,7 @@ package edu.ntnu.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import edu.ntnu.model.Die;
+import edu.ntnu.model.dice.Die;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
