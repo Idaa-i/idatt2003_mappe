@@ -8,6 +8,7 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.*;
@@ -15,6 +16,9 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -30,6 +34,7 @@ public class EditSnLPlayersView extends Application {
     private static final double INITIAL_WIDTH = 600;
     private static final double INITIAL_HEIGHT = 400;
     private String selectedGame;
+    private List<String[]> csvPlayers;
 
     @Override
     public void start(Stage primaryStage) {
@@ -39,6 +44,8 @@ public class EditSnLPlayersView extends Application {
     public void start(Stage primaryStage, String game) {
         this.selectedGame = game;
         this.controller = new PlayerController(this);
+        this.csvPlayers = new ArrayList<>();
+        loadPlayersFromCSV();
 
         BorderPane root = new BorderPane();
         root.setStyle("-fx-background-color: #dbe8fd;");
@@ -65,7 +72,13 @@ public class EditSnLPlayersView extends Application {
 
         Button addButton = new Button("Add +");
         addButton.styleProperty().bind(root.widthProperty().multiply(0.03).asString("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: %fpx; -fx-border-radius: 5px"));
-        addButton.setOnAction(e -> addPlayer());
+        addButton.setOnAction(e -> {
+            if (controller.getPlayers().size() < MAX_PLAYERS) {
+                controller.addPlayer("Player" + (controller.getPlayers().size() + 1), colors[controller.getPlayers().size() % colors.length], null);
+            } else {
+                errorLabel.setText("Maximum of " + MAX_PLAYERS + " players reached!");
+            }
+        });
 
         Button saveButton = new Button("Save players?");
         saveButton.styleProperty().bind(root.widthProperty().multiply(0.03).asString("-fx-background-color: #dbe8fd; -fx-text-fill: BLACK; -fx-font-weight: bold; -fx-font-size: %fpx; -fx-border-radius: 5px"));
@@ -100,18 +113,47 @@ public class EditSnLPlayersView extends Application {
         primaryStage.setMinHeight(300);
         primaryStage.show();
 
-        addPlayer();
-        addPlayer();
-        addPlayer();
+        controller.addPlayer("Player1", colors[0], null);
+        controller.addPlayer("Player2", colors[1], null);
     }
 
-    private void addPlayer() {
-        if (controller.getPlayers().size() >= MAX_PLAYERS) {
-            errorLabel.setText("Maximum of " + MAX_PLAYERS + " players allowed!");
-            return;
+    private void loadPlayersFromCSV() {
+        String csvFile = "players.csv";
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFile))) {
+            String line;
+            boolean firstLine = true;
+            while ((line = br.readLine()) != null) {
+                if (firstLine) {
+                    firstLine = false;
+                    continue;
+                }
+                String[] data = parseCSVLine(line);
+                if (data.length >= 1 && !data[0].trim().isEmpty()) {
+                    csvPlayers.add(data);
+                }
+            }
+        } catch (IOException e) {
+            errorLabel.setText("Error reading players.csv: " + e.getMessage());
         }
-        controller.addPlayer("Player" + (controller.getPlayers().size() + 1), colors[controller.getPlayers().size()], null);
-        errorLabel.setText("");
+    }
+
+    private String[] parseCSVLine(String line) {
+        List<String> result = new ArrayList<>();
+        boolean inQuotes = false;
+        StringBuilder field = new StringBuilder();
+        for (int i = 0; i < line.length(); i++) {
+            char c = line.charAt(i);
+            if (c == '"') {
+                inQuotes = !inQuotes;
+            } else if (c == ',' && !inQuotes) {
+                result.add(field.toString());
+                field = new StringBuilder();
+            } else {
+                field.append(c);
+            }
+        }
+        result.add(field.toString());
+        return result.toArray(new String[0]);
     }
 
     public void updatePlayerList(List<Player> players) {
@@ -130,6 +172,14 @@ public class EditSnLPlayersView extends Application {
         nameField.prefWidthProperty().bind(playersBox.widthProperty().multiply(0.25));
         nameField.styleProperty().bind(playersBox.widthProperty().multiply(0.03).asString("-fx-background-color: transparent; -fx-font-size: %fpx; -fx-font-weight: bold"));
 
+        ChoiceBox<String> playerDropdown = new ChoiceBox<>();
+        playerDropdown.getItems().add("Custom");
+        for (String[] csvPlayer : csvPlayers) {
+            playerDropdown.getItems().add(csvPlayer[0].trim());
+        }
+        playerDropdown.setValue("Custom");
+        playerDropdown.setPrefWidth(100);
+
         HBox colorBox = new HBox(15);
         colorBox.setPadding(new Insets(7));
         ArrayList<Rectangle> colorRects = new ArrayList<>();
@@ -143,15 +193,30 @@ public class EditSnLPlayersView extends Application {
             colorRect.setOnMouseClicked(e -> {
                 player.setColor(color);
                 updateColorSelection(player, colorRects);
+                playerDropdown.setValue("Custom");
             });
             colorBox.getChildren().add(colorRect);
         }
+
+        playerDropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldVal, newVal) -> {
+            if (newVal != null && !newVal.equals("Custom")) {
+                for (String[] csvPlayer : csvPlayers) {
+                    if (csvPlayer[0].equals(newVal)) {
+                        nameField.setText(csvPlayer[0]);
+                        String color = csvPlayer.length > 1 ? csvPlayer[1] : colors[0];
+                        player.setColor(color);
+                        updateColorSelection(player, colorRects);
+                        break;
+                    }
+                }
+            }
+        });
 
         Button removeButton = new Button("-");
         removeButton.styleProperty().bind(playersBox.widthProperty().multiply(0.03).asString("-fx-background-color: transparent; -fx-text-fill: black; -fx-border-color: black; -fx-border-width: 1px; -fx-font-weight: bold; -fx-font-size: %fpx"));
         removeButton.setOnAction(e -> controller.removePlayer(player));
 
-        HBox row = new HBox(15, nameField, colorBox, removeButton);
+        HBox row = new HBox(15, nameField, playerDropdown, colorBox, removeButton);
         row.setAlignment(Pos.CENTER_LEFT);
         row.setStyle("-fx-background-color: #e6f2ff;");
         return row;
