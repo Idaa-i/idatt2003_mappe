@@ -1,4 +1,4 @@
-package edu.ntnu.model;
+package edu.ntnu.model.dice;
 
 import java.util.ArrayList;
 import java.util.List;

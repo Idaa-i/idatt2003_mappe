@@ -1,9 +1,8 @@
-package edu.ntnu.controller;
+package edu.ntnu.views;
 
 import edu.ntnu.model.BoardGameObserver;
 import edu.ntnu.model.Player;
-import edu.ntnu.model.Tile;
-import edu.ntnu.views.GameView;
+import edu.ntnu.model.board.Tile;
 
 /**
  * Implementation of BoardGameObserver to handle updates from BoardGame and notify the view.

@@ -1,4 +1,4 @@
-package edu.ntnu.model;
+package edu.ntnu.model.dice;
 
 import java.util.Random;
 

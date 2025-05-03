@@ -1,6 +1,6 @@
 package edu.ntnu.views.Ludo;
 
-import edu.ntnu.model.Die;
+import edu.ntnu.model.dice.Die;
 import edu.ntnu.model.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.input.KeyEvent;

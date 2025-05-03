@@ -1,5 +1,8 @@
-package edu.ntnu.model;
+package edu.ntnu.model.board;
 
+import edu.ntnu.model.BoardGameObserver;
+import edu.ntnu.model.dice.Dice;
+import edu.ntnu.model.Player;
 import java.util.ArrayList;
 import java.util.List;
 

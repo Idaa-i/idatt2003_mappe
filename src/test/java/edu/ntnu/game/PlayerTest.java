@@ -1,8 +1,8 @@
 package edu.ntnu.game;
 
-import edu.ntnu.model.Board;
+import edu.ntnu.model.board.Board;
 import edu.ntnu.model.Player;
-import edu.ntnu.model.Tile;
+import edu.ntnu.model.board.Tile;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

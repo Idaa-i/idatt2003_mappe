@@ -1,6 +1,7 @@
 package edu.ntnu.controller;
 
 import edu.ntnu.model.Player;
+import edu.ntnu.model.board.Tile;
 import edu.ntnu.views.EditSnLPlayersView;
 
 import java.util.ArrayList;
@@ -15,15 +16,24 @@ public class PlayerController {
     this.view = view;
   }
 
-  public void addPlayer(String name, String color, edu.ntnu.model.Tile startTile) {
+  public void addPlayer(String name, String color, Tile startTile) {
     Player player = new Player(name, color, startTile);
-    player.setColor(color);
     players.add(player);
     view.updatePlayerList(players);
   }
 
   public void removePlayer(Player player) {
     players.remove(player);
+    view.updatePlayerList(players);
+  }
+
+  public void updatePlayerName(Player player, String newName) {
+    player.setName(newName);
+    view.updatePlayerList(players);
+  }
+
+  public void updatePlayerColor(Player player, String newColor) {
+    player.setColor(newColor);
     view.updatePlayerList(players);
   }
 

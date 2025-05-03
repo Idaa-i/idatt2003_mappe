@@ -1,7 +1,6 @@
-package edu.ntnu.model;
+package edu.ntnu.model.board;
 
-import java.util.HashMap;
-import java.util.Map;
+import edu.ntnu.model.actions.TileAction;
 
 public class Tile {
     private int position;

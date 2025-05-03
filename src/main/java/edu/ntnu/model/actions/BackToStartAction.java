@@ -1,6 +1,6 @@
-package edu.ntnu.model;
+package edu.ntnu.model.actions;
 
-public class BackToStartAction implements TileAction{
+public class BackToStartAction implements TileAction {
   private int destination;
 
   public BackToStartAction(int destination) {
