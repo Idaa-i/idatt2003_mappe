@@ -18,7 +18,10 @@ public class Board {
     for (int i = 1; i <= size; i++) {
       tiles.put(i, new Tile(i));
     }
+  }
 
+  public Map<Integer, Tile> getTiles() {
+    return tiles;
   }
 
   /**
