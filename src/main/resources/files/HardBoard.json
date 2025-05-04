@@ -1,0 +1,18 @@
+{
+  "tiles": {
+    "1": {"position": 1, "action": null},
+    "6": {"position": 6, "action": {"type": "LadderAction", "destination": 16}},
+    "22": {"position": 22, "action": {"type": "SnakeAction", "destination": 2}},
+    "27": {"position": 27, "action": {"type": "SnakeAction", "destination": 9}},
+    "32": {"position": 32, "action": {"type": "SkipOneRoundAction"}},
+    "34": {"position": 34, "action": {"type": "LadderAction", "destination": 46}},
+    "38": {"position": 38, "action": {"type": "BackToStartAction", "destination": 1}},
+    "41": {"position": 41, "action": {"type": "SkipOneRoundAction"}},
+    "58": {"position": 58, "action": {"type": "SnakeAction", "destination": 36}},
+    "67": {"position": 67, "action": {"type": "BackToStartAction", "destination": 1}},
+    "70": {"position": 70, "action": {"type": "SnakeAction", "destination": 52}},
+    "79": {"position": 79, "action": {"type": "LadderAction", "destination": 83}},
+    "86": {"position": 86, "action": {"type": "SnakeAction", "destination": 64}},
+    "90": {"position": 90, "action": null}
+  }
+}

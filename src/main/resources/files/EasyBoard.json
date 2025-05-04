@@ -1,0 +1,11 @@
+{
+  "tiles": {
+    "1": {"position": 1, "action": null},
+    "6": {"position": 6, "action": {"type": "LadderAction", "destination": 8}},
+    "14": {"position": 14, "action": {"type": "SnakeAction", "destination": 2}},
+    "26": {"position": 26, "action": {"type": "SkipOneRoundAction"}},
+    "27": {"position": 27, "action": {"type": "LadderAction", "destination": 33}},
+    "30": {"position": 30, "action": {"type": "SnakeAction", "destination": 19}},
+    "36": {"position": 36, "action": null}
+  }
+}
