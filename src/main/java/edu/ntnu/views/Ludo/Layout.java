@@ -1,23 +1,27 @@
 package edu.ntnu.views.Ludo;
-
 import edu.ntnu.model.Player;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 
+/**
+ * Layout is responsible for rendering the visual layout of the Ludo game board,
+ * including player zones, paths, and name labels
+ */
 public class Layout {
 
     int x, y, width, height;
-    ArrayList<edu.ntnu.model.Player> logicPlayers;
+    ArrayList<edu.ntnu.model.Player> logicPlayers; //The logical players whose names and colors are displayed
 
     private static final Color COLOR_1 = Color.web("719063");  // Green-like color
     private static final Color COLOR_2 = Color.web("9D61E6");  // Purple-like color
     private static final Color COLOR_3 = Color.web("E79A61");  // Orange-like color
     private static final Color COLOR_4 = Color.web("E76264");  // Salmon/Red-like color
-
+    /**
+     * Maps a player's hex code to their name label coordinates on the board
+     */
     private final HashMap<String, int[]> colorToNamePosition = new HashMap<>() {{
         put("#E76264", new int[]{90, 35});   // Red = Player 1 (top-left)
         put("#719063", new int[]{370, 35});  // Green = Player 2 (top-right)
@@ -25,6 +29,12 @@ public class Layout {
         put("#9D61E6", new int[]{90, 540});  // Purple = Player 4 (bottom-left)
     }};
 
+    /**
+     * Constructs a Layout instance with given board position and list of players
+     * @param xi X offset of the board
+     * @param yi Y offset of the board
+     * @param logicPlayers The players to be rendered
+     */
     public Layout(int xi, int yi, ArrayList<Player> logicPlayers) {
         x = xi;
         y = yi;
@@ -33,36 +43,42 @@ public class Layout {
         this.logicPlayers = logicPlayers;
     }
 
+    /**
+     * Draws the Ludo game board including player start zones, paths, and
+     * the player names at predefined positions
+     * @param gc The graphics context to draw onto
+     */
     public void draw(GraphicsContext gc) {
         gc.setFill(Color.WHITE);
         gc.fillRect(x, y, 15 * width, 15 * height);
-
+        //Draw colored zoned for each player (paths and home areas)
         for (int i = 0; i < 6; i++) {
+            //Red
             gc.setFill(COLOR_4);
             gc.fillRect(x + (i * width), y, width, height);
             gc.fillRect(x, y + (i * height), width, height);
             gc.fillRect(x + (i * width), y + (5 * height), width, height);
             gc.fillRect(x + (5 * width), y + (i * height), width, height);
-
+            //Green
             gc.setFill(COLOR_1);
             gc.fillRect(x + ((i + 9) * width), y, width, height);
             gc.fillRect(x + (9 * width), y + (i * height), width, height);
             gc.fillRect(x + ((i + 9) * width), y + (5 * height), width, height);
             gc.fillRect(x + (14 * width), y + (i * height), width, height);
-
+            //Orange
             gc.setFill(COLOR_3);
             gc.fillRect(x + ((i + 9) * width), y + (9 * height), width, height);
             gc.fillRect(x + (9 * width), y + ((i + 9) * height), width, height);
             gc.fillRect(x + ((i + 9) * width), y + (14 * height), width, height);
             gc.fillRect(x + (14 * width), y + ((i + 9) * height), width, height);
-
+            //Purple
             gc.setFill(COLOR_2);
             gc.fillRect(x + (i * width), y + (9 * height), width, height);
             gc.fillRect(x, y + ((i + 9) * height), width, height);
             gc.fillRect(x + (i * width), y + (14 * height), width, height);
             gc.fillRect(x + (5 * width), y + ((i + 9) * height), width, height);
         }
-
+        //Draw main paths into home zones
         for (int i = 1; i < 6; i++) {
             gc.setFill(COLOR_4);
             gc.fillRect(x + (i * width), y + (7 * height), width, height);
@@ -73,7 +89,7 @@ public class Layout {
             gc.setFill(COLOR_2);
             gc.fillRect(x + (7 * width), y + ((8 + i) * height), width, height);
         }
-
+        //Draw final home-entry tiles
         gc.setFill(COLOR_4);
         gc.fillRect(x + (1 * width), y + (6 * height), width, height);
         gc.setFill(COLOR_3);
@@ -150,13 +166,13 @@ public class Layout {
         gc.strokePolygon(xPoints2, yPoints2, 3);
         gc.strokePolygon(xPoints3, yPoints3, 3);
 
-        // Drawing circles
+        // Drawing circles (entry points)
         gc.strokeOval(x + 5 + (6 * width), y + 5 + (2 * height), width - 10, height - 10);
         gc.strokeOval(x + 5 + (12 * width), y + 5 + (6 * height), width - 10, height - 10);
         gc.strokeOval(x + 5 + (8 * width), y + 5 + (12 * height), width - 10, height - 10);
         gc.strokeOval(x + 5 + (2 * width), y + 5 + (8 * height), width - 10, height - 10);
 
-        // Drawing text
+        // Drawing player names and instructions
         gc.setFont(Font.font("serif", 40));
         if (logicPlayers != null) {
             for (Player p : logicPlayers) {
