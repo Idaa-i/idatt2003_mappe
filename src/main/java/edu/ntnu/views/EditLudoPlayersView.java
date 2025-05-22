@@ -3,13 +3,13 @@ package edu.ntnu.views;
 import edu.ntnu.model.Player;
 import edu.ntnu.model.board.Tile;
 import edu.ntnu.views.Ludo.GameScreen;
+import javafx.application.Application;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
-import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -157,7 +157,6 @@ public class EditLudoPlayersView extends Application {
         ex.printStackTrace();
       }
     });
-
     HBox buttonBox = new HBox(10, addButton, saveButton, playButton);
     buttonBox.setAlignment(Pos.BOTTOM_LEFT);
 
@@ -301,7 +300,6 @@ public class EditLudoPlayersView extends Application {
       playerRows.put(p, row);
     }
   }
-
   /**
    * Method for validating that all players have unique named and colors.
    *

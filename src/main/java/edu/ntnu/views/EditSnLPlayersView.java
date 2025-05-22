@@ -285,37 +285,36 @@ public class EditSnLPlayersView extends Application {
       colorRects.get(i).setOpacity(player.getColor().equals(colors[i]) ? 0.7 : 1.0);
     }
   }
+    /**
+     * Method for validating that all players have unique named and colors.
+     *
+     * @return true if validation passes, otherwise false
+     */
+    private boolean validatePlayers() {
+        HashSet<String> names = new HashSet<>();
+        HashSet<String> colors = new HashSet<>();
 
-  /**
-   * Method for validating that all players have unique named and colors.
-   *
-   * @return true if validation passes, otherwise false
-   */
-  private boolean validatePlayers() {
-    HashSet<String> names = new HashSet<>();
-    HashSet<String> colors = new HashSet<>();
+        List<Player> players = controller.getPlayers();
 
-    List<Player> players = controller.getPlayers();
+        if (players.isEmpty()) {
+            errorLabel.setText("Zero players is not allowed!");
+            return false;
+        }
 
-    if (players.isEmpty()) {
-      errorLabel.setText("Zero players is not allowed!");
-      return false;
+        for (Player player : players) {
+            if (!names.add(player.getName())) {
+                errorLabel.setText("Duplicate names are not allowed!");
+                return false;
+            }
+            if (!colors.add(player.getColor())) {
+                errorLabel.setText("Duplicate colors are not allowed!");
+                return false;
+            }
+        }
+
+        errorLabel.setText("");
+        return true;
     }
-
-    for (Player player : players) {
-      if (!names.add(player.getName())) {
-        errorLabel.setText("Duplicate names are not allowed!");
-        return false;
-      }
-      if (!colors.add(player.getColor())) {
-        errorLabel.setText("Duplicate colors are not allowed!");
-        return false;
-      }
-    }
-
-    errorLabel.setText("");
-    return true;
-  }
 
   /**
    * Method for navigating to the Snakes and Ladders level view, passing the current list of
