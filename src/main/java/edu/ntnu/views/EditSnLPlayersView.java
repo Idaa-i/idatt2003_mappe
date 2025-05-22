@@ -294,7 +294,15 @@ public class EditSnLPlayersView extends Application {
   private boolean validatePlayers() {
     HashSet<String> names = new HashSet<>();
     HashSet<String> colors = new HashSet<>();
-    for (Player player : controller.getPlayers()) {
+
+    List<Player> players = controller.getPlayers();
+
+    if (players.isEmpty()) {
+      errorLabel.setText("Zero players is not allowed!");
+      return false;
+    }
+
+    for (Player player : players) {
       if (!names.add(player.getName())) {
         errorLabel.setText("Duplicate names are not allowed!");
         return false;
@@ -304,6 +312,7 @@ public class EditSnLPlayersView extends Application {
         return false;
       }
     }
+
     errorLabel.setText("");
     return true;
   }
