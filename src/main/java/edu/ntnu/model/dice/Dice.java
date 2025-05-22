@@ -4,16 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Klasse som representerer flere terninger.
+ * Class representing a collection of dice.
  */
 public class Dice {
   private List<Die> dice;
 
   /**
-   * Konstruktør for Dice-klassen.
-   * Initialiserer dice-listen med et gitt antall terninger.
+   * Constructor for Dice class.
+   * Constructs a Dice-object wil a specifies number of dice
    *
-   * @param numberOfDice antallet terninger som skal opprettes.
+   * @param numberOfDice the number of dice to create
    */
   public Dice(int numberOfDice) {
     dice = new ArrayList<>(numberOfDice);
@@ -23,9 +23,9 @@ public class Dice {
   }
 
   /**
-   * Metode for å kaste alle terningene og summere den totale verdien.
+   * Method for rolling all dice and returns the total sum of their value.
    *
-   * @return den totale verdien av alle kastede terninger.
+   * @return the total value of all rolled dice
    */
   public int roll() {
     int total = 0;
@@ -36,11 +36,11 @@ public class Dice {
   }
 
   /**
-   * Metode for å hente verdien av én spesifikk terning.
+   * Method for retrieving the valye of a specific die.
    *
-   * @param dieNumber terningens indeks.
-   * @return verdien som den spesifikke terningen ga.
-   * @throws IllegalArgumentException ved ugyldig terning-nummer.
+   * @param dieNumber the index of the die to retrive
+   * @return the value of the specified die
+   * @throws IllegalArgumentException if the die index is out of bounds
    */
   public int getDie(int dieNumber) {
     if (dieNumber >= 0 && dieNumber < dice.size()) {

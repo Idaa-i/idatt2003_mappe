@@ -1,5 +1,4 @@
 package edu.ntnu.views.Ludo;
-
 import edu.ntnu.model.dice.Die;
 import edu.ntnu.model.Player;
 import javafx.scene.canvas.GraphicsContext;
@@ -7,9 +6,13 @@ import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
-
 import java.util.ArrayList;
 
+/**
+ * GameMoves handles the primary interaction and gameplay loop for a
+ * Ludo game session. It coordinates between layout rendering, player moves,
+ * dice rolling, user input, and win conditions.
+ */
 public class GameMoves {
     private Layout la;
     private Build_Player p;
@@ -18,9 +21,12 @@ public class GameMoves {
     private int dice;                  // last die value
     private int flag;                  // 1 = there is at least one legal move to play
     private int bonusTurns;            // 0 = no bonus, >0 = take that many extra turns
-
     private final Die die = new Die();
 
+    /**
+     * Constructs a new GameMoves instance for the given list of logical players
+     * @param logicPlayers List of logical players in the game
+     */
     public GameMoves(ArrayList<Player> logicPlayers) {
         la           = new Layout(80, 50, logicPlayers);
         p            = new Build_Player(logicPlayers, la.height, la.width);
@@ -28,6 +34,10 @@ public class GameMoves {
         resetTurnState();
     }
 
+    /**
+     * Draws the current game state onto the screen
+     * @param gc The graphic context to render to
+     */
     public void draw(GraphicsContext gc) {
         la.draw(gc);
         p.draw(gc);
@@ -45,7 +55,6 @@ public class GameMoves {
             resetGame();
             return;
         }
-
         if (dice != 0 && p.players[currentPlayer] != null) {
             gc.setFill(Color.WHITE);
             gc.fillRect(590, 100, 380, 130);
@@ -55,7 +64,6 @@ public class GameMoves {
             gc.fillText(p.players[currentPlayer].getName(), 600, 150);
             gc.fillText("Number on dice is " + dice,       600, 200);
         }
-
         if (flag == 0 && dice != 0) {           // the move just finished
             if (bonusTurns == 0) {              // no more bonuses, next player
                 nextPlayer();
@@ -66,12 +74,15 @@ public class GameMoves {
         }
     }
 
+    /**
+     * Handles key press events such as rolling the die when enter is pressed
+     * @param e The key event to process
+     */
     public void handleKeyPress(KeyEvent e) {
         if (p.players[currentPlayer] == null) {
             nextPlayer();
             return;
         }
-
         if (e.getCode().toString().equals("ENTER") && flag == 0) {
 
             dice       = die.roll();
@@ -82,6 +93,11 @@ public class GameMoves {
             }
         }
     }
+
+    /**
+     * Handles mouse click events to activate pawn movement if a legal move exists
+     * @param e The mouse event to process
+     */
     public void handleMouseClick(MouseEvent e) {
         if (flag != 1 || p.players[currentPlayer] == null) return;
 
@@ -162,6 +178,10 @@ public class GameMoves {
         }
     }
 
+    /**
+     * Switches to the next active player in the game
+     * Skips over null entries, so nonexistent players
+     */
     private void nextPlayer() {
         do {
             currentPlayer = (currentPlayer + 1) % p.players.length;
@@ -169,18 +189,31 @@ public class GameMoves {
         resetTurnState();
     }
 
+    /**
+     * Resets the state for a new player's turn
+     * Clears the die roll, any move flags, and bonus turns
+     */
     private void resetTurnState() {
         dice       = 0;
         flag       = 0;
         bonusTurns = 0;
     }
 
+    /**
+     * Resets the game entirely with the same players
+     * Rebuilds the layout and resets turn state
+     */
     private void resetGame() {
         la            = new Layout(80, 50, p.getLogicPlayers());
         currentPlayer = 0;
         resetTurnState();
     }
 
+    /**
+     * Returns the color associated with the given player index
+     * @param player The index of the player
+     * @return Color object representing the players color
+     */
     private Color getPlayerColor(int player) {
         return switch (player) {
             case 0 -> Color.web("E76264");
