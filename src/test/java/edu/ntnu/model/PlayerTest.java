@@ -47,7 +47,7 @@ class PlayerTest {
   void testMoveOntoLadder() {
     board.getTile(4).setAction(new LadderAction(8));
     player.setCurrentTile(board.getTile(1));
-    String result = player.move(3, board); // Moves to tile 4, then up to 8
+    String result = player.move(3, board);
     assertTrue(result.contains("Landed on ladder up"));
     assertEquals(8, player.getCurrentTile().getPosition());
   }
@@ -56,7 +56,7 @@ class PlayerTest {
   void testMoveOntoSkipTile() {
     board.getTile(4).setAction(new SkipOneRoundAction());
     player.setCurrentTile(board.getTile(1));
-    String result = player.move(3, board); // Moves to 4, triggers skip
+    String result = player.move(3, board);
     assertTrue(result.contains("Landed on skip-tile"));
     assertTrue(player.isSkipOneRound());
     assertEquals(4, player.getCurrentTile().getPosition());

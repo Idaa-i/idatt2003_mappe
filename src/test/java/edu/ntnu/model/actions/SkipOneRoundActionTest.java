@@ -4,7 +4,7 @@ public class SkipOneRoundActionTest extends AbstractTileActionTest {
 
   @Override
   protected TileAction createAction(int destination) {
-    return new SkipOneRoundAction();  // destination irrelevant her
+    return new SkipOneRoundAction();
   }
 
   @Override
