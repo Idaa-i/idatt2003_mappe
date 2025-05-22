@@ -107,6 +107,31 @@ public class EditLudoPlayersView extends Application {
         playButton.minHeightProperty().bind(primaryStage.heightProperty().multiply(0.05)); // 5% of window height
 
         playButton.setOnAction(e -> {
+            if (players.isEmpty()) {
+                errorLabel.setText("Zero players is not allowed.");
+                return;
+            }
+
+            HashSet<String> usedNames = new HashSet<>();
+            HashSet<String> usedColors = new HashSet<>();
+
+            for (Player player : players) {
+                String name = player.getName().trim().toLowerCase();
+                String color = player.getColor().trim().toLowerCase();
+
+                if (!usedNames.add(name)) {
+                    errorLabel.setText("Duplicate names are not allowed.");
+                    return;
+                }
+
+                if (!usedColors.add(color)) {
+                    errorLabel.setText("Duplicate colors are not allowed.");
+                    return;
+                }
+            }
+
+            errorLabel.setText(""); // Empty errormessage if everything is OK
+
             try {
                 GameScreen.setPlayers(players);
                 new GameScreen().start(primaryStage);
@@ -114,6 +139,7 @@ public class EditLudoPlayersView extends Application {
                 ex.printStackTrace();
             }
         });
+
 
 
 
@@ -241,22 +267,29 @@ public class EditLudoPlayersView extends Application {
     }
 
     private boolean validatePlayers() {
+        if (players.isEmpty()) {
+            errorLabel.setText("Zero players is not allowed!");
+            return false;
+        }
+
         HashSet<String> names = new HashSet<>();
         HashSet<String> colors = new HashSet<>();
 
         for (Player player : players) {
-            if (!names.add(player.getName())) {
+            if (!names.add(player.getName().trim().toLowerCase())) {
                 errorLabel.setText("Duplicate names are not allowed!");
                 return false;
             }
-            if (!colors.add(player.getColor())) {
+            if (!colors.add(player.getColor().trim().toLowerCase())) {
                 errorLabel.setText("Duplicate colors are not allowed!");
                 return false;
             }
         }
+
         errorLabel.setText("");
         return true;
     }
+
 
     private void savePlayersToFile() {
         try (PrintWriter writer = new PrintWriter(new FileWriter("ludo_players.csv"))) {
