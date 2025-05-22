@@ -7,7 +7,7 @@ import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 
 /**
- * DiceImage-klassen representerer en visuell fremstilling av en terning.
+ * Class representing a visual component for displaying a single die.
  */
 public class DiceImage extends Group {
   private static final double SIZE = 50;
@@ -15,9 +15,10 @@ public class DiceImage extends Group {
   private Die die;
 
   /**
-   * Konstruktør for DiceImage.
+   * Constructor for DiceImage class.
+   * Constructs a DiceImage for the given Die
    *
-   * @param die terningen som skal vises
+   * @param die the die whose value will be visually represented
    */
   public DiceImage(Die die) {
     this.die = die;
@@ -31,6 +32,9 @@ public class DiceImage extends Group {
     updateDiceFace();
   }
 
+  /**
+   * Method for updating the visual representation of the die face based on its current value.
+   */
   public void updateDiceFace() {
     int value = die.getValue();
     if (value < 1 || value > 6) {
@@ -76,10 +80,10 @@ public class DiceImage extends Group {
   }
 
   /**
-   * Legger til en prikk på terningens overflate ved de spesifiserte koordinatene.
+   * Adds a dot (circle) to the die face at the specified coordinates.
    *
-   * @param x x-koordinaten til prikken
-   * @param y y-koordinaten til prikken
+   * @param x the x-coordinate of the dot
+   * @param y the y-coordinate of the dot
    */
   private void addDot(double x, double y) {
     Circle dot = new Circle(x, y, DOT_RADIUS);
