@@ -31,9 +31,7 @@ public class BoardGame {
     this.gameOver = false;
     this.observers = new ArrayList<>();
 
-    for (Player player : this.players) {
-      player.setCurrentTile(board.getStartTile());
-    }
+    this.players.forEach(player -> player.setCurrentTile(board.getStartTile()));
   }
 
   /**
@@ -87,9 +85,7 @@ public class BoardGame {
    * @param player the player who moved
    */
   public void notifyPlayerMove(Player player) {
-    for (BoardGameObserver observer : observers) {
-      observer.onPlayerMove(player, player.getCurrentTile());
-    }
+    observers.forEach(observer -> observer.onPlayerMove(player, player.getCurrentTile()));
   }
 
   /**
@@ -98,8 +94,6 @@ public class BoardGame {
    * @param winner the player who won
    */
   public void notifyPlayerWon(Player winner) {
-    for (BoardGameObserver observer : observers) {
-      observer.onPlayerWin(winner);
-    }
+    observers.forEach(observer -> observer.onPlayerWin(winner));
   }
 }

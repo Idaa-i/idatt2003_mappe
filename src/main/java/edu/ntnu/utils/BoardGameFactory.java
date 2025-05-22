@@ -42,9 +42,7 @@ public class BoardGameFactory {
   private static BoardGame createEasyBoardGame(List<Player> players) {
     Board board = boardReader.readBoard(Path.of("src/main/resources/files/EasyBoard.json"));
     BoardGame game = new BoardGame(board, players, 1);
-    for (Player player : game.getPlayers()) {
-      player.setBoard(board);
-    }
+    game.getPlayers().forEach(player -> player.setBoard(board));
     return game;
   }
 
@@ -57,9 +55,7 @@ public class BoardGameFactory {
   private static BoardGame createHardBoardGame(List<Player> players) {
     Board board = boardReader.readBoard(Path.of("src/main/resources/files/HardBoard.json"));
     BoardGame game = new BoardGame(board, players, 2);
-    for (Player player : game.getPlayers()) {
-      player.setBoard(board);
-    }
+    game.getPlayers().forEach(player -> player.setBoard(board));
     return game;
   }
 }
