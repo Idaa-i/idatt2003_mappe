@@ -4,14 +4,17 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Klasse som representerer selve spillbrettet.
+ * Class representing the game board.
+ * The board consists of a collection of objects
  */
 public class Board {
   private Map<Integer, Tile> tiles;
 
   /**
-   * Konstruktor for Board-klassen.
-   * Brettet starter tomt
+   * Constructor for the Board class.
+   * Initializes the board with a given number of tiles
+   *
+   * @param size the number of tiles on the board
    */
   public Board(int size) {
     this.tiles = new HashMap<>();
@@ -22,33 +25,38 @@ public class Board {
   }
 
   /**
-   * Metode for å hente startfeltet på brettet.
+   * Method for returning the starting tile of the board.
    *
-   * @return første felt på brettet
+   * @return the first tile on the baord
    */
   public Tile getStartTile() {
     return tiles.get(1);
   }
 
   /**
-   * Metode for å legge til felt på brettet.
+   * Method for adding a tile to the board.
    *
-   * @param tile feltet som skal legges til
+   * @param tile the tile to be added
    */
   public void addTile(Tile tile) {
     tiles.put(tile.getPosition(), tile);
   }
 
   /**
-   * Metode for å hente ett felt fra spillbrette basert på feltets ID.
+   * Method for retrieving a specific tile from the board based on its ID.
    *
-   * @param tileId feltets ID
-   * @return den tilsvarende felt-ID
+   * @param tileId the ID of the tile to retrieve
+   * @return the tile with the given ID
    */
   public Tile getTile(int tileId) {
     return tiles.get(tileId);
   }
 
+  /**
+   * Method for returning the total number of tiles on the board.
+   *
+   * @return the size of the board
+   */
   public int getSize() {
     return tiles.size();
   }

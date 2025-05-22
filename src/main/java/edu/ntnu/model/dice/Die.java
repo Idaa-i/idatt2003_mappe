@@ -3,24 +3,25 @@ package edu.ntnu.model.dice;
 import java.util.Random;
 
 /**
- * Klasse som representerer én terning.
+ * Class representing a single die.
  */
 public class Die {
   private int lastRolledValue;
   private Random random;
 
   /**
-   * Konstruktør for Die-klassen.
+   * Constructor for Die class.
+   * Constructs a Die-object
    */
   public Die() {
     this.random = new Random();
-    this.lastRolledValue = 1; //Setter default verdi lik 1
+    this.lastRolledValue = 1;
   }
 
   /**
-   * Metode for å kaste én terning.
+   * Method for rolling the die and update its value.
    *
-   * @return verdien som terningen gir (1-6)
+   * @return the result of the roll
    */
   public int roll() {
     lastRolledValue = random.nextInt(6) + 1;
@@ -28,9 +29,9 @@ public class Die {
   }
 
   /**
-   * Metode for å hente siste kastet verdi av terningen.
+   * Method for returning the last rolled value of the die.
    *
-   * @return siste kastet verdi av terningen
+   * @return the most recent value rolled
    */
   public int getValue() {
     return lastRolledValue;
