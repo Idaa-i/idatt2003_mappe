@@ -5,11 +5,14 @@ import edu.ntnu.model.Player;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
+import java.util.logging.Logger;
+import java.util.logging.Level;
 
 /**
  * Class responsible for writing player data to a CSV file.
  */
 public class CSVUtils {
+  private static final Logger logger = Logger.getLogger(CSVUtils.class.getName());
   /**
    * Method for writing a list of players to a CSV file at the specified file path.
    * Each row in the CSV will contain the player's name and color
@@ -23,9 +26,9 @@ public class CSVUtils {
       for (Player player : players) {
         writer.writeNext(new String[] {player.getName(), player.getColor()});
       }
-      System.out.println("CSV file written successfully!");
+      logger.info("CSV file written successfully!");
     } catch (IOException e) {
-      e.printStackTrace();
+      logger.log(Level.SEVERE, "Failed to write CSV file", e);
     }
   }
 }
