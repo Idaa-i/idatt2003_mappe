@@ -7,7 +7,7 @@ public class LadderAction implements TileAction {
   private int destination;
 
   /**
-   * Contructor for LadderAction class.
+   * Constructor for LadderAction class.
    *
    * @param destination the tile position the player will be moved to
    */

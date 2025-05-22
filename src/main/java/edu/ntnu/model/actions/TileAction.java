@@ -7,7 +7,7 @@ package edu.ntnu.model.actions;
  */
 public interface TileAction {
   /**
-   * Methhod for executing the action associated with a tile.
+   * Method for executing the action associated with a tile.
    *
    * @param position the current position of the player
    * @return the new position after the action is executed
