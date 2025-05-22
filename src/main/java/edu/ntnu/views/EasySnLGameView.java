@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 public class EasySnLGameView extends Application implements GameView {
@@ -78,9 +79,10 @@ public class EasySnLGameView extends Application implements GameView {
     bottomBox.setAlignment(Pos.CENTER);
 
     VBox root = new VBox(20, boardPane, bottomBox);
-    root.setStyle("-fx-alignment: center; -fx-padding: 20px;");
+    root.setStyle("-fx-alignment: center; -fx-padding: 20px 20px 20px 20px;");
 
-    Scene scene = new Scene(root, 650, 700);
+    double screenHeight = Screen.getPrimary().getVisualBounds().getHeight();
+    Scene scene = new Scene(root, 650, screenHeight);
     primaryStage.setTitle("Snakes and Ladders - Easy");
     primaryStage.setScene(scene);
     primaryStage.show();
