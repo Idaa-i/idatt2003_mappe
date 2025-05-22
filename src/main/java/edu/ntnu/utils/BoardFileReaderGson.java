@@ -2,20 +2,26 @@ package edu.ntnu.utils;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import edu.ntnu.model.actions.*;
+import com.google.gson.reflect.TypeToken;
+import edu.ntnu.model.actions.TileAction;
 import edu.ntnu.model.board.Board;
 import edu.ntnu.model.board.Tile;
-
-import java.io.InputStreamReader;
-import java.io.Reader;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Path;
-import java.nio.file.Files;
 import java.io.IOException;
 import java.lang.reflect.Type;
-import com.google.gson.reflect.TypeToken;
+import java.nio.file.Files;
+import java.nio.file.Path;
 
+/**
+ * Implementation of BoardFileReader that read a board configuration from a JSON file.
+ */
 public class BoardFileReaderGson implements BoardFileReader {
+  /**
+   * Method for reading a board configuration from the specified file path and deserializes it into
+   * a Board-object.
+   *
+   * @param path the path to theJSON file containing the board configuration
+   * @return a Board-object representing the loaded board
+   */
   @Override
   public Board readBoard(Path path) {
     try {
@@ -26,12 +32,19 @@ public class BoardFileReaderGson implements BoardFileReader {
     }
   }
 
+  /**
+   * Method for deserializing a JSON string into a Board-object.
+   *
+   * @param json the JSON string representing the board
+   * @return the deserialized Board-object
+   */
   private Board deserializeBoard(String json) {
     Gson gson = new GsonBuilder()
         .registerTypeAdapter(TileAction.class, new TileActionAdapter())
         .create();
 
-    Type boardType = new TypeToken<Board>() {}.getType();
+    Type boardType = new TypeToken<Board>() {
+    }.getType();
     Board board = gson.fromJson(json, boardType);
 
     int boardSize = board.getTiles().keySet().stream()

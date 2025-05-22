@@ -1,24 +1,33 @@
 package edu.ntnu.utils;
 
-import com.google.gson.*;
-import edu.ntnu.model.actions.*;
-
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import edu.ntnu.model.actions.BackToStartAction;
+import edu.ntnu.model.actions.LadderAction;
+import edu.ntnu.model.actions.SkipOneRoundAction;
+import edu.ntnu.model.actions.SnakeAction;
+import edu.ntnu.model.actions.TileAction;
 import java.lang.reflect.Type;
 
-public class TileActionAdapter implements JsonSerializer<TileAction>, JsonDeserializer<TileAction> {
+/**
+ * Custom Gson adapter for deserializing TileAction-objects.
+ */
+public class TileActionAdapter implements JsonDeserializer<TileAction> {
+  /**
+   * Deserializes a JSON object into a TileAction instance.
+   *
+   * @param json    the JSON data to deserialize
+   * @param typeOfT the type of the object to deserialize to
+   * @param context the deserialization context
+   * @return a TileAction intance based on the JSON data
+   * @throws JsonParseException if the type is unknown or required fields are missing
+   */
   @Override
-  public JsonElement serialize(TileAction src, Type typeOfSrc, JsonSerializationContext context) {
-    JsonObject jsonObject = new JsonObject();
-    jsonObject.addProperty("type", src.getClass().getSimpleName());
-    if (src instanceof SnakeAction || src instanceof LadderAction || src instanceof BackToStartAction) {
-      int destination = src.execute(0);
-      jsonObject.addProperty("destination", destination);
-    }
-    return jsonObject;
-  }
-
-  @Override
-  public TileAction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+  public TileAction deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context)
+      throws JsonParseException {
     JsonObject jsonObject = json.getAsJsonObject();
     String type = jsonObject.get("type").getAsString();
 
